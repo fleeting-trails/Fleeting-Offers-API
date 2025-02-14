@@ -65,5 +65,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)  : DbContext(o
         .UseSeeding((context, _) =>
         {
             AdvertiseDealTypesSeeder.Seed(context);
+            SuperAdminSeeder.Seed(context);
         });
 }

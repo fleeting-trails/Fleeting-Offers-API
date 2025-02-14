@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250204095402_InitialMigration")]
+    [Migration("20250214070835_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -843,7 +843,6 @@ namespace FleetingOffers.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
@@ -854,7 +853,6 @@ namespace FleetingOffers.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OtpId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordId")
@@ -869,6 +867,11 @@ namespace FleetingOffers.Migrations
                     b.Property<string>("UserSubRoleId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OtpId");
@@ -876,6 +879,9 @@ namespace FleetingOffers.Migrations
                     b.HasIndex("PasswordId");
 
                     b.HasIndex("UserSubRoleId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -1180,9 +1186,7 @@ namespace FleetingOffers.Migrations
                 {
                     b.HasOne("FleetingOffers.Modules.Auth.AuthOtpEntity", "Otp")
                         .WithMany()
-                        .HasForeignKey("OtpId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OtpId");
 
                     b.HasOne("FleetingOffers.Modules.Auth.PasswordEntity", "Password")
                         .WithMany()

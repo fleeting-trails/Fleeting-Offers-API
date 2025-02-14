@@ -4,18 +4,23 @@ using FleetingOffers.Common.Enums;
 using FleetingOffers.Modules.Auth;
 using FleetingOffers.Modules.File;
 using FleetingOffers.Modules.Location;
+using Microsoft.EntityFrameworkCore;
 
 namespace FleetingOffers.Modules.User;
 
+[Index(nameof(Username), IsUnique = true)]
 public class UserEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; set; }  // Auto-generated ID
 
+    [MaxLength(100)]
+    public string? FullName { get; set; }
+
     [Required]
     [MaxLength(100)]
-    public string FullName { get; set; }
+    public string Username { get; set; }
 
     [Required]
     [EmailAddress]
@@ -37,8 +42,8 @@ public class UserEntity
 
     // Navigation properties
     public List<AuthTokenEntity> Tokens { get; set; } = new List<AuthTokenEntity>();
-    public AuthOtpEntity Otp { get; set; }
-    public PasswordEntity Password { get; set; }
+    public AuthOtpEntity? Otp { get; set; } = null;
+    public PasswordEntity? Password { get; set; }
     public OrganizationProfileEntity? OrganizationProfile;
 }
 

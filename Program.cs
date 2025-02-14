@@ -1,4 +1,5 @@
-using FleetingOffers.Configs;
+using System.Diagnostics;
+using FleetingOffers.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,11 +9,36 @@ builder.Services.AddOpenApi();
 
 
 // Initialize database
-DatabaseConfig.Initialize(builder);
 
-builder.Services.AddControllers();
+#region Initializations
+new DatabaseSettings(builder);
+new GeneralSettings(builder);
+new MailSettings(builder);
+new CacheSettings(builder);
+#endregion
 
 var app = builder.Build();
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    foreach (var endpoint in endpoints.DataSources.SelectMany(ds => ds.Endpoints))
+    {
+        Console.WriteLine($"Available Endpoint: {endpoint.DisplayName}");
+        Debug.WriteLine($"Available Endpoint: {endpoint.DisplayName}");
+    }
+});
+
+app.MapControllers();
+
+// Log all registered routes
+var endpointDataSource = app.Services.GetRequiredService<EndpointDataSource>();
+foreach (var endpoint in endpointDataSource.Endpoints)
+{
+    Console.WriteLine($"Available URL: {endpoint.DisplayName}");
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -22,28 +48,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/test", () =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return "Connection OK!";
 })
-.WithName("GetWeatherForecast");
+.WithName("TestConnection");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

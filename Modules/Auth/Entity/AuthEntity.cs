@@ -18,7 +18,7 @@ public class AuthOtpEntity
     public string OtpValue { get; set; }
 
     [Required]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;  // Defaults to current UTC time
+    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;  // Defaults to current UTC time
 
     public DateTime? ExpireAt { get; set; }  // Optional expiration time
 

@@ -271,7 +271,8 @@ namespace FleetingOffers.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    FullName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Role = table.Column<int>(type: "INTEGER", nullable: false),
                     RestrictedUserSubRoleId = table.Column<int>(type: "INTEGER", nullable: true),
@@ -279,7 +280,7 @@ namespace FleetingOffers.Migrations
                     LastLoggedIn = table.Column<DateTime>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPasswordSet = table.Column<bool>(type: "INTEGER", nullable: false),
-                    OtpId = table.Column<string>(type: "TEXT", nullable: false),
+                    OtpId = table.Column<string>(type: "TEXT", nullable: true),
                     PasswordId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -289,8 +290,7 @@ namespace FleetingOffers.Migrations
                         name: "FK_Users_AuthOtps_OtpId",
                         column: x => x.OtpId,
                         principalTable: "AuthOtps",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_Passwords_PasswordId",
                         column: x => x.PasswordId,
@@ -869,6 +869,12 @@ namespace FleetingOffers.Migrations
                 name: "IX_Users_PasswordId",
                 table: "Users",
                 column: "PasswordId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserSubRoleId",
