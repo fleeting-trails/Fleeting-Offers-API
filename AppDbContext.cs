@@ -1,11 +1,11 @@
 using System;
-using FleetingOffers.Modules.Advertise;
-using FleetingOffers.Modules.Auth;
-using FleetingOffers.Modules.Campaign;
-using FleetingOffers.Modules.File;
-using FleetingOffers.Modules.Location;
-using FleetingOffers.Modules.Subscriber;
-using FleetingOffers.Modules.User;
+using FleetingOffers.Module.Advertise;
+using FleetingOffers.Module.Auth;
+using FleetingOffers.Module.Campaign;
+using FleetingOffers.Module.File;
+using FleetingOffers.Module.Location;
+using FleetingOffers.Module.Subscriber;
+using FleetingOffers.Module.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace FleetingOffers;

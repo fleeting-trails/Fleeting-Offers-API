@@ -1,5 +1,5 @@
 using FleetingOffers.Http;
-using FleetingOffers.Modules.Auth;
+using FleetingOffers.Module.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetingOffers.Controllers;
@@ -12,7 +12,7 @@ public class AuthControllers : ControllerBase {
         _service = service;
     }
     [HttpPost("get-otp")]
-    public IResult GetOtp(GetOtpAdminPayload body) {
+    public IActionResult GetOtp(GetOtpAdminPayload body) {
         try {
             var email = body.Email;
             var Otp = _service.GetOtp(email);
@@ -21,4 +21,25 @@ public class AuthControllers : ControllerBase {
             return AppHttpResponse.BadRequest(e.Message);
         }
     }
+
+    [HttpPost("set-password")]
+    public IActionResult SetPassword(SetPasswordAdminPayload body) {
+        try {
+            _service.SetPassword(body.Email, body.Password, body.Otp);
+            return AppHttpResponse.Ok("Password Set, Please login with your new password");
+        } catch (Exception e) {
+            return AppHttpResponse.BadRequest($"Failed to set password: {e.Message}");
+        }
+    }
+
+    [HttpPost("login")]
+    public IActionResult Login()
+    {
+        try {
+            return AppHttpResponse.Ok("Login Successful");
+        } catch (Exception e) {
+            return AppHttpResponse.BadRequest(e.Message);
+        }
+    }
+
 }

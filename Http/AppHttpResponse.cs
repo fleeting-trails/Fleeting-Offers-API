@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace FleetingOffers.Http;
 
 public static class AppHttpResponse {
-    public static IResult Ok(object? data, string message = "Success")
+    public static ActionResult Ok(object? data, string message = "Success")
     {
         var response = new
         {
@@ -9,9 +11,9 @@ public static class AppHttpResponse {
             Message = message,
             Data = data
         };
-        return Results.Ok(response);
+        return new OkObjectResult(response);
     }
-    public static IResult CreatedAtRoute(string route, string Id, object? data, string message = "Success")
+    public static ActionResult CreatedAtRoute(string route, string Id, object? data, string message = "Success")
     {
         var response = new
         {
@@ -19,19 +21,24 @@ public static class AppHttpResponse {
             Message = message,
             Data = data
         };
-        return Results.CreatedAtRoute("GetFileSingle", new { Id = Id }, response);
+        // return Results.CreatedAtRoute("GetFileSingle", new { Id = Id }, response);
+        return new CreatedAtRouteResult("GetFileSingle", new { Id = Id }, response);
     }
-    public static IResult BadRequest(string message = "Bad Request!")
+    public static ActionResult BadRequest(string message = "Bad Request!")
     {
         var response = new
         {
             Success = false,
             Message = message
         };
-        return Results.BadRequest(response);
+        return new BadRequestObjectResult(response);
     }
-    public static IResult Unauthorized()
+    public static ActionResult Unauthorized()
     {
-        return Results.Unauthorized();
+        return new UnauthorizedObjectResult(new
+        {
+            Success = false,
+            Message = "Unauthorized"
+        }); 
     }
 }
