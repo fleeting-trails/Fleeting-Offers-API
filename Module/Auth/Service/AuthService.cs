@@ -58,7 +58,7 @@ public class AuthService
         
     }
 
-    public void Login (string email, string password) {
+    public void Login (string email, string password, string deviceSingature) {
         /**
         - First we get the user by email, if not found throw error
         - Then we get the password entity by user id
@@ -75,7 +75,7 @@ public class AuthService
 
         var passwordEntity = user.Password ?? throw new Exception("PASSWORD404: No password found associated with this user, please set a password to login");
 
-        Helper.VerifyPassword(password, user.Password.HashValue, Convert.FromBase64String(user.Password.Salt));
+        if (!Helper.VerifyPassword(password, user.Password.HashValue, Convert.FromBase64String(user.Password.Salt))) throw new Exception("WRONG_CREDENTIALS: Wrong credentials, unable to login");
         
     }
 
