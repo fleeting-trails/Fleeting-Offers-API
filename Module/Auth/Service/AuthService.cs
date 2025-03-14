@@ -20,16 +20,13 @@ public class AuthService
         _userRepository = userRepository;
     }
 
-    public AuthOtpEntity GetOtp(string email)
+    public AuthOtpDto GetOtp(string email)
     {
         var user = _userRepository.GetUserByEmail(email) ?? throw new Exception("USER404: No user found associated with this email, contact support to register");
 
         var OtpValue = _mailService.SendOTP(user.Username, user.Email);
 
         var Otp = _repository.UpsertOtp(OtpValue, user.Id);
-        user.Otp = Otp;
-
-        _dbContext.SaveChanges();
 
         return Otp;
     }
@@ -72,7 +69,7 @@ public class AuthService
         - We return user profile with the token
         **/
 
-        var user = _userRepository.GetUserByEmailWithAll(email) ?? throw new Exception("USER404: No user found associated with this email, contact support to register");
+        var user = _userRepository.GetUserByEmailWithPassword(email) ?? throw new Exception("USER404: No user found associated with this email, contact support to register");
 
         if (user == null) throw new Exception("USER404: No user found associated with this email, contact support to register");
 

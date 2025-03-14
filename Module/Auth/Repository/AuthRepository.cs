@@ -1,3 +1,4 @@
+using AutoMapper;
 using FleetingOffers;
 using FleetingOffers.Attributes;
 using FleetingOffers.Provider;
@@ -9,13 +10,15 @@ public class AuthRepository
 {
     private readonly AppDbContext _dbContext;
     private readonly CacheProvider _cacheProvider;
-    public AuthRepository(AppDbContext dbContext, CacheProvider cacheProvider)
+    private readonly IMapper _mapper;
+    public AuthRepository(AppDbContext dbContext, CacheProvider cacheProvider, IMapper mapper)
     {
         _dbContext = dbContext;
         _cacheProvider = cacheProvider;
+        _mapper = mapper;
     }
 
-    public AuthOtpEntity UpsertOtp(string otpValue, string userId)
+    public AuthOtpDto UpsertOtp(string otpValue, string userId)
     {
         /**
             - First we save the OTP to the cache database
@@ -43,18 +46,18 @@ public class AuthRepository
 
         _dbContext.SaveChanges();
 
-        return Otp;
+        return _mapper.Map<AuthOtpDto>(Otp);
     }
-    public AuthOtpEntity? GetAuthOtp(string userId)
+    public AuthOtpDto? GetAuthOtp(string userId)
     {
         /**
         - First we try to get the OTP from the cache database
         - If not found, we get the OTP from the database
         **/
         var Otp = _cacheProvider.Get<AuthOtpEntity>($"{userId}_OTP");
-        if (Otp != null) return Otp;
+        if (Otp != null) return _mapper.Map<AuthOtpDto>(Otp);
         Otp = _dbContext.AuthOtps.FirstOrDefault(otp => otp.UserId == userId);
-        return Otp;
+        return _mapper.Map<AuthOtpDto>(Otp);
     }
 
 }

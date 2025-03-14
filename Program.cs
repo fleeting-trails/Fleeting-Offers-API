@@ -15,6 +15,7 @@ new DatabaseSettings(builder);
 new GeneralSettings(builder);
 new MailSettings(builder);
 new CacheSettings(builder);
+new AutoMapperSettings(builder);
 #endregion
 
 var app = builder.Build();

@@ -32,8 +32,6 @@ public class UserEntity
 
     // Foreign Key for RestrictedUserSubRoles
     public int? RestrictedUserSubRoleId { get; set; }
-    public UserSubRoleEntity? UserSubRole { get; set; }
-
     public DateTime? LastLoggedIn { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -41,6 +39,8 @@ public class UserEntity
     public bool IsPasswordSet { get; set; } = false;
 
     // Navigation properties
+    public UserSubRoleEntity? UserSubRole { get; set; }
+
     public List<AuthTokenEntity> Tokens { get; set; } = new List<AuthTokenEntity>();
     public AuthOtpEntity? Otp { get; set; } = null;
     public PasswordEntity? Password { get; set; }
