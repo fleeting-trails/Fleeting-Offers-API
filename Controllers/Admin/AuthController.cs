@@ -33,10 +33,11 @@ public class AuthControllers : ControllerBase {
     }
 
     [HttpPost("login")]
-    public IActionResult Login()
+    public IActionResult Login(LoginPayloadAdminDto body)
     {
         try {
-            return AppHttpResponse.Ok("Login Successful");
+            var res = _service.Login(body.Email, body.Password, body.Device);
+            return AppHttpResponse.Ok(res, "Login Successful");
         } catch (Exception e) {
             return AppHttpResponse.BadRequest(e.Message);
         }

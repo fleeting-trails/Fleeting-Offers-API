@@ -6,12 +6,13 @@ using System.Text;
 using FleetingOffers.Settings;
 using System.Diagnostics;
 using FleetingOffers.Provider.JWT;
-using ASPBoilerplate.Configurations;
 using FleetingOffers.Module.Auth;
+using FleetingOffers.Attributes;
 
-public static class JWTProvider
+[ScopedService]
+public class JWTProvider
 {
-    public static AuthTokenDto GenerateToken(JWTPayloadDto data)
+    public AuthTokenDto GenerateToken(JWTPayloadDto data)
     {
         var issuedAt = DateTimeOffset.UtcNow;
         var expiration = DateTime.UtcNow.AddHours(JWTSettings.ExpireInHour); 
@@ -52,7 +53,7 @@ public static class JWTProvider
         };
     }
 
-    public static JWTPayloadDto DecodeAndValidateToken(string token)
+    public JWTPayloadDto DecodeAndValidateToken(string token)
     {
         if (JWTSettings.Secret == null) throw new Exception("Please provide valid jwt secret");
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -97,7 +98,7 @@ public static class JWTProvider
         }
     }
 
-    public static JWTPayloadDto DecodeTokenWithoutValidation(string token)
+    public JWTPayloadDto DecodeTokenWithoutValidation(string token)
     {
         Console.WriteLine($"Decoding token: {token}");
         var tokenHandler = new JwtSecurityTokenHandler();

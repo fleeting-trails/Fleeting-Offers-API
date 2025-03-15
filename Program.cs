@@ -16,6 +16,7 @@ new GeneralSettings(builder);
 new MailSettings(builder);
 new CacheSettings(builder);
 new AutoMapperSettings(builder);
+new JWTSettings(builder);
 #endregion
 
 var app = builder.Build();

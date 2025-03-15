@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using FleetingOffers.Module.User;
 
 namespace FleetingOffers.Module.Auth;
 
@@ -15,4 +16,17 @@ public record SetPasswordAdminPayload (
     string Otp,
     [Required]
     string Password
+);
+
+public record LoginPayloadAdminDto (
+    [Required]
+    [EmailAddress]
+    string Email,
+    [Required]
+    string Password,
+    string? Device
+);
+public record LoginResponseAdminDto (
+    UserDto User,
+    string Token
 );

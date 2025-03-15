@@ -1,6 +1,7 @@
 using FleetingOffers.Attributes;
 using FleetingOffers.Module.User;
 using FleetingOffers.Provider;
+using FleetingOffers.Provider.JWT;
 using FleetingOffers.Util.Helper;
 
 namespace FleetingOffers.Module.Auth;
@@ -12,12 +13,14 @@ public class AuthService
     private readonly MailProvider _mailService;
     private readonly AuthRepository _repository;
     private readonly UserRepository _userRepository;
-    public AuthService(AppDbContext dbContext, MailProvider mailService, AuthRepository repository, UserRepository userRepository)
+    private readonly JWTProvider _jwtProvider;
+    public AuthService(AppDbContext dbContext, MailProvider mailService, AuthRepository repository, UserRepository userRepository, JWTProvider jWTProvider)
     {
         _dbContext = dbContext;
         _mailService = mailService;
         _repository = repository;
         _userRepository = userRepository;
+        _jwtProvider = jWTProvider;
     }
 
     public AuthOtpDto GetOtp(string email)
@@ -58,7 +61,7 @@ public class AuthService
         
     }
 
-    public void Login (string email, string password, string deviceSingature) {
+    public LoginResponseAdminDto Login (string email, string password, string? deviceSingature) {
         /**
         - First we get the user by email, if not found throw error
         - Then we get the password entity by user id
@@ -76,7 +79,21 @@ public class AuthService
         var passwordEntity = user.Password ?? throw new Exception("PASSWORD404: No password found associated with this user, please set a password to login");
 
         if (!Helper.VerifyPassword(password, user.Password.HashValue, Convert.FromBase64String(user.Password.Salt))) throw new Exception("WRONG_CREDENTIALS: Wrong credentials, unable to login");
-        
+
+        var token = _jwtProvider.GenerateToken(new JWTPayloadDto()
+        {
+            UserId = user.Id,
+            Email = user.Email,
+            Role = user.Role.ToString(),
+            Device = deviceSingature,
+        });
+
+        _repository.UpsertAuthToken(user.Id, deviceSingature, token.Token);
+
+        return new LoginResponseAdminDto(
+            User: user,
+            Token:token.Token
+        );
     }
 
 
