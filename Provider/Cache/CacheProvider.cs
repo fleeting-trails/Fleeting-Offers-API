@@ -53,16 +53,24 @@ public class CacheProvider
             return JsonSerializer.Deserialize<T>(cachedItem)!;
         }
     }
-    public void Create(string key, object val)
+    public bool Create(string key, object val)
     {
         if (CacheSettings.CacheEnabled)
         {
-            _cache.SetString(
-                key,
-                JsonSerializer.Serialize(val),
-                new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = CacheSettings.DefaultExpiry }
-            );
+            try
+            {
+                _cache.SetString(
+                    key,
+                    JsonSerializer.Serialize(val),
+                    new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = CacheSettings.DefaultExpiry }
+                );
+                return true;
+            } catch (Exception e)
+            {
+                return false;
+            }
         }
+        return false;
     }
     public T? Get<T>(string key)
     {
@@ -76,5 +84,23 @@ public class CacheProvider
             return default;
         }
         return JsonSerializer.Deserialize<T>(cachedItem);
+    }
+
+    public bool Delete(string key)
+    {
+        if (!CacheSettings.CacheEnabled)
+        {
+            return false;
+        }
+        
+        try
+        {
+            _cache.Remove(key);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 }

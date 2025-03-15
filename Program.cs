@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using FleetingOffers.Configurations;
 using FleetingOffers.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,12 +12,14 @@ builder.Services.AddOpenApi();
 // Initialize database
 
 #region Initializations
+new HttpSettings(builder);
 new DatabaseSettings(builder);
 new GeneralSettings(builder);
 new MailSettings(builder);
 new CacheSettings(builder);
 new AutoMapperSettings(builder);
 new JWTSettings(builder);
+new AuthSettings(builder);
 #endregion
 
 var app = builder.Build();

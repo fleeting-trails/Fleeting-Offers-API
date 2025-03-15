@@ -2,6 +2,7 @@ using AutoMapper;
 using FleetingOffers;
 using FleetingOffers.Attributes;
 using FleetingOffers.Provider;
+using Org.BouncyCastle.Bcpg;
 
 namespace FleetingOffers.Module.Auth;
 
@@ -27,10 +28,10 @@ public class AuthRepository
             - If found, we update the OTP
         **/
         AuthOtpEntity newOtp = new()
-            {
-                UserId = userId,
-                OtpValue = otpValue,
-            };
+        {
+            UserId = userId,
+            OtpValue = otpValue,
+        };
 
         _cacheProvider.Create($"{userId}_OTP", newOtp);
 
@@ -38,7 +39,8 @@ public class AuthRepository
         if (Otp == null)
         {
             Otp = newOtp;
-;        }
+            ;
+        }
         else
         {
             Otp.OtpValue = otpValue;
@@ -60,7 +62,8 @@ public class AuthRepository
         return _mapper.Map<AuthOtpDto>(Otp);
     }
 
-    public void UpsertAuthToken(string userId, string? deviceSignature, string token) {
+    public void UpsertAuthToken(string userId, string? deviceSignature, string token)
+    {
         /**
         - First we generate a new token
         - Then we save the token to the cache database, the cache databasek key should be in the format {userId}_{deviceSignature}_TOKEN
@@ -75,19 +78,58 @@ public class AuthRepository
             Token = token,
         };
 
-        _cacheProvider.Create($"{userId}_${deviceSignature ?? ""}_TOKEN", newToken);
+        var created = _cacheProvider.Create($"{userId}_{deviceSignature ?? ""}_TOKEN", newToken);
 
-        var Token = _dbContext.AuthTokens.FirstOrDefault(token => token.UserId == userId && token.DeviceSignature == deviceSignature);
-        if (Token == null)
+        if (!created)
         {
-            _dbContext.Add(newToken);
-        }
-        else
-        {
-            Token.Token = token;
-        }
+            var Token = _dbContext.AuthTokens.FirstOrDefault(token => token.UserId == userId && token.DeviceSignature == deviceSignature);
+            if (Token == null)
+            {
+                _dbContext.Add(newToken);
+            }
+            else
+            {
+                Token.Token = token;
+            }
 
-        _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
+        }
+    }
+
+    public AuthTokenDto? GetAuthToken(string userId, string? deviceSignature)
+    {
+        /**
+        - First we try to get the token from the cache database, the cache databasek key should be in the format {userId}_{deviceSignature}_TOKEN
+        - If not found, we get the token from the database
+        **/
+        var Token = _cacheProvider.Get<AuthTokenEntity>($"{userId}_{deviceSignature ?? ""}_TOKEN");
+        if (Token != null) return _mapper.Map<AuthTokenDto>(Token);
+        Token = _dbContext.AuthTokens.FirstOrDefault(token => token.UserId == userId && token.DeviceSignature == deviceSignature);
+        return _mapper.Map<AuthTokenDto>(Token);
+    }
+    public bool DeleteAuthToken(string userId, string tokenString, string deviceSignature)
+    {
+        /**
+        - First we try to get the token from the cache database, the cache databasek key should be in the format {userId}_{deviceSignature}_TOKEN
+        - If found we delete the token from the cache database
+        - If not found, Then we try to get the token from the database. 
+        - Then we delete the token from the database
+        **/
+
+        var Token = _cacheProvider.Get<AuthTokenEntity>($"{userId}_{deviceSignature ?? ""}_TOKEN");
+        if (Token != null)
+        {
+            var deleted = _cacheProvider.Delete($"{userId}_{deviceSignature ?? ""}_TOKEN");
+            return deleted;
+        }
+        
+        Token = _dbContext.AuthTokens.FirstOrDefault(token => token.UserId == userId && token.Token == tokenString);
+        if (Token != null) {
+            _dbContext.AuthTokens.Remove(Token);
+            _dbContext.SaveChanges();
+            return true;
+        }
+        return false;
     }
 
 }

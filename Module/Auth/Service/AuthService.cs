@@ -1,4 +1,5 @@
 using FleetingOffers.Attributes;
+using FleetingOffers.Http;
 using FleetingOffers.Module.User;
 using FleetingOffers.Provider;
 using FleetingOffers.Provider.JWT;
@@ -14,7 +15,13 @@ public class AuthService
     private readonly AuthRepository _repository;
     private readonly UserRepository _userRepository;
     private readonly JWTProvider _jwtProvider;
-    public AuthService(AppDbContext dbContext, MailProvider mailService, AuthRepository repository, UserRepository userRepository, JWTProvider jWTProvider)
+    public AuthService(
+        AppDbContext dbContext, 
+        MailProvider mailService, 
+        AuthRepository repository, 
+        UserRepository userRepository, 
+        JWTProvider jWTProvider
+    )
     {
         _dbContext = dbContext;
         _mailService = mailService;
@@ -23,6 +30,7 @@ public class AuthService
         _jwtProvider = jWTProvider;
     }
 
+    #region ControllerClass
     public AuthOtpDto GetOtp(string email)
     {
         var user = _userRepository.GetUserByEmail(email) ?? throw new Exception("USER404: No user found associated with this email, contact support to register");
@@ -95,6 +103,41 @@ public class AuthService
             Token:token.Token
         );
     }
+
+    public void Logout(string userId, string token, string? deviceSignature) {
+        var res = _repository.DeleteAuthToken(userId, token, deviceSignature);
+        if (!res) throw new Exception("LOGOUT_FAILED: Unable to logout, please try again");
+    }
+    #endregion
+
+    #region MiddlewareClass
+
+    public TokenValidationResponse ValidateToken(string? token)
+    {
+        if (token == null) return null;
+        try
+        {
+            var Res = _jwtProvider.DecodeAndValidateToken(token);
+
+            var Token = _repository.GetAuthToken(Res.UserId, Res.Device);
+            if (Token == null) throw new Exception("INVALID_TOKEN: Provided token is invalid");
+
+            if (Token.Expiration < DateTime.UtcNow) throw new Exception("TOKEN_EXPIRED: Token expired");
+
+            if (Token.Token != token || Res.Role == null) throw new Exception("INVALID_TOKEN: Provided token is invalid");
+
+            var RoleEnum = Enum.Parse<USER_ROLE>(Res.Role.ToUpper());
+
+            return new TokenValidationResponse(Token.Token, Token.UserId, RoleEnum, Token.DeviceSignature, true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Access unauthorized. {e.Message}");
+            return new TokenValidationResponse(null, null, null, null, false);
+        }
+
+    }
+    #endregion
 
 
 }
