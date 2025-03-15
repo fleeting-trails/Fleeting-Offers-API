@@ -6,9 +6,9 @@ namespace FleetingOffers.Module.Auth;
 [SingletonService]
 public class AuthMapper : Profile {
     public AuthMapper() {
-        CreateMap<AuthOtpDto, AuthOtpEntity>().ReverseMap();
-        CreateMap<AuthTokenDto, AuthTokenEntity>().ReverseMap();
-        CreateMap<PasswordDto, PasswordEntity>().ReverseMap();
-        CreateMap<UserPermissionDto, UserPermissionEntity>().ReverseMap();
+        CreateMap<AuthOtpEntity, AuthOtpDto>();
+        CreateMap<AuthTokenEntity, AuthTokenDto>();
+        CreateMap<PasswordEntity, PasswordDto>();
+        CreateMap<UserPermissionEntity, UserPermissionDto>();
     }
 }
