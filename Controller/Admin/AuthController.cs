@@ -3,7 +3,7 @@ using FleetingOffers.Modifier;
 using FleetingOffers.Module.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FleetingOffers.Controllers;
+namespace FleetingOffers.Controller;
 
 [Route("auth")]
 [ApiController]

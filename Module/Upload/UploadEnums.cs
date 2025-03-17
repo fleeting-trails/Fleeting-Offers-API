@@ -5,7 +5,7 @@ namespace FleetingOffers.Module;
 
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum FILE_STORAGE_TYPE {
+public enum UPLOAD_STORAGE_TYPE {
     [EnumMember(Value = "LOCAL")]
     LOCAL
 }

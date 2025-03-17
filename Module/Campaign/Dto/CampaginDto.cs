@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FleetingOffers.Module.Advertise;
-using FleetingOffers.Module.File;
+using FleetingOffers.Module.Upload;
 
 public class CampaignDto
 {

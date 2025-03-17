@@ -455,7 +455,7 @@ namespace FleetingOffers.Migrations
                     b.ToTable("Campaigns");
                 });
 
-            modelBuilder.Entity("FleetingOffers.Module.File.FileEntity", b =>
+            modelBuilder.Entity("FleetingOffers.Module.Upload.UploadEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -908,7 +908,7 @@ namespace FleetingOffers.Migrations
                         .WithMany("AdditionalImages")
                         .HasForeignKey("AdvertiseEntityId");
 
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "Image")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -930,7 +930,7 @@ namespace FleetingOffers.Migrations
 
             modelBuilder.Entity("FleetingOffers.Module.Advertise.AdvertiseCategoryEntity", b =>
                 {
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "Image")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
@@ -943,7 +943,7 @@ namespace FleetingOffers.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "CoverImage")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId");
 
@@ -955,7 +955,7 @@ namespace FleetingOffers.Migrations
                         .WithMany()
                         .HasForeignKey("SubCategoryId");
 
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "ThumbnailImage")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "ThumbnailImage")
                         .WithMany()
                         .HasForeignKey("ThumbnailImageId");
 
@@ -972,7 +972,7 @@ namespace FleetingOffers.Migrations
 
             modelBuilder.Entity("FleetingOffers.Module.Advertise.AdvertiseIndustryEntity", b =>
                 {
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "Image")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
@@ -1064,11 +1064,11 @@ namespace FleetingOffers.Migrations
 
             modelBuilder.Entity("FleetingOffers.Module.Campaign.CampaignEntity", b =>
                 {
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "CoverImage")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId");
 
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "ThumbnailImage")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "ThumbnailImage")
                         .WithMany()
                         .HasForeignKey("ThumbnailImageId");
 
@@ -1134,7 +1134,7 @@ namespace FleetingOffers.Migrations
 
             modelBuilder.Entity("FleetingOffers.Module.User.OrganizationProfileEntity", b =>
                 {
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "CoverImage")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId");
 
@@ -1142,7 +1142,7 @@ namespace FleetingOffers.Migrations
                         .WithMany()
                         .HasForeignKey("LocationId");
 
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "ProfileImage")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "ProfileImage")
                         .WithMany()
                         .HasForeignKey("ProfileImageId");
 
@@ -1155,7 +1155,7 @@ namespace FleetingOffers.Migrations
 
             modelBuilder.Entity("FleetingOffers.Module.User.OrganizationProfileExtraImageEntity", b =>
                 {
-                    b.HasOne("FleetingOffers.Module.File.FileEntity", "Image")
+                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)

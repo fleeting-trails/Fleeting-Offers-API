@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FleetingOffers.Module.File;
+using FleetingOffers.Module.Upload;
 using FleetingOffers.Module.Location;
 using FleetingOffers.Module.User;
 namespace FleetingOffers.Module.Advertise;
@@ -27,10 +27,10 @@ public class AdvertiseEntity
 
     // Foreign Keys for Images
     public string? CoverImageId { get; set; }
-    public FileEntity? CoverImage { get; set; }
+    public UploadEntity? CoverImage { get; set; }
 
     public string? ThumbnailImageId { get; set; }
-    public FileEntity? ThumbnailImage { get; set; }
+    public UploadEntity? ThumbnailImage { get; set; }
 
     // Foreign Keys for Category & Industry
     public string? CategoryId { get; set; }
@@ -123,7 +123,7 @@ public class AdvertiseAdditionalImageEntity
     [ForeignKey("Files")]
 
     public string ImageId { get; set; }
-    public FileEntity Image { get; set; }
+    public UploadEntity Image { get; set; }
 }
 
 public class AdvertiseCategoryEntity
@@ -139,7 +139,7 @@ public class AdvertiseCategoryEntity
     public string Slug { get; set; }
 
     public string? ImageId { get; set; }
-    public FileEntity? Image { get; set; }
+    public UploadEntity? Image { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -158,7 +158,7 @@ public class AdvertiseIndustryEntity
     public string Slug { get; set; }
 
     public string? ImageId { get; set; }
-    public FileEntity? Image { get; set; }
+    public UploadEntity? Image { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

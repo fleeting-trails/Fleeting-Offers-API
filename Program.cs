@@ -20,6 +20,7 @@ new CacheSettings(builder);
 new AutoMapperSettings(builder);
 new JWTSettings(builder);
 new AuthSettings(builder);
+new UploadSettings(builder);
 #endregion
 
 var app = builder.Build();

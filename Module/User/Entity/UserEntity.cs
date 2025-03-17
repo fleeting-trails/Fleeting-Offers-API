@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FleetingOffers.Common.Enums;
 using FleetingOffers.Module.Auth;
-using FleetingOffers.Module.File;
+using FleetingOffers.Module.Upload;
 using FleetingOffers.Module.Location;
 using Microsoft.EntityFrameworkCore;
 
@@ -77,10 +77,10 @@ public class OrganizationProfileEntity
 
     // Foreign Keys for CoverImage and ProfileImage
     public string? CoverImageId { get; set; }
-    public FileEntity? CoverImage { get; set; }
+    public UploadEntity? CoverImage { get; set; }
 
     public string? ProfileImageId { get; set; }
-    public FileEntity? ProfileImage { get; set; }
+    public UploadEntity? ProfileImage { get; set; }
 
     // Extra Images as a One-to-Many Relationship
     public ICollection<OrganizationProfileExtraImageEntity> ExtraImages { get; set; } = new List<OrganizationProfileExtraImageEntity>();
@@ -103,7 +103,7 @@ public class OrganizationProfileExtraImageEntity
     [Required]
     [ForeignKey("OrganizationProfiles")]
     public string OrganizationProfileId { get; set; }  // Foreign Key to Users
-    public FileEntity Image { get; set; }
+    public UploadEntity Image { get; set; }
 }
 
 

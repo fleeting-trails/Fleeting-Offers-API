@@ -1,10 +1,10 @@
-namespace FleetingOffers.Module.File;
+namespace FleetingOffers.Module.Upload;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class FileEntity
+public class UploadEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,7 +21,7 @@ public class FileEntity
     public string URL { get; set; }  // Path or URL to the file location
 
     [Required]
-    public FILE_STORAGE_TYPE Storage { get; set; } = FILE_STORAGE_TYPE.LOCAL;  // Default is Local storage
+    public UPLOAD_STORAGE_TYPE Storage { get; set; } = UPLOAD_STORAGE_TYPE.LOCAL;  // Default is Local storage
 
     [Required]
     public bool IsUsed { get; set; } = false;  // Indicates if the file is actively used

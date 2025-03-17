@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FleetingOffers.Module.Advertise;
-using FleetingOffers.Module.File;
+using FleetingOffers.Module.Upload;
 
 public class CampaignEntity
 {
@@ -20,10 +20,10 @@ public class CampaignEntity
 
     // Foreign Keys for Cover and Thumbnail Images
     public string? CoverImageId { get; set; }
-    public FileEntity? CoverImage { get; set; }
+    public UploadEntity? CoverImage { get; set; }
 
     public string? ThumbnailImageId { get; set; }
-    public FileEntity? ThumbnailImage { get; set; }
+    public UploadEntity? ThumbnailImage { get; set; }
 
     // One-to-Many Relationship with CampaignAdvertises
     public ICollection<CampaignAdvertiseEntity> CampaignAdvertises { get; set; } = new List<CampaignAdvertiseEntity>();

@@ -1,5 +1,5 @@
 using FleetingOffers.Common.Enums;
-using FleetingOffers.Module.File;
+using FleetingOffers.Module.Upload;
 
 namespace FleetingOffers.Module.User;
 

@@ -1,6 +1,6 @@
-namespace FleetingOffers.Module.File;
+namespace FleetingOffers.Module.Upload;
 
-public class FileDto
+public class UploadDto
 {
     public string Id { get; set; }  // Auto-generated ID
 
@@ -10,7 +10,7 @@ public class FileDto
 
     public string URL { get; set; }  // Path or URL to the file location
 
-    public FILE_STORAGE_TYPE Storage { get; set; } = FILE_STORAGE_TYPE.LOCAL;  // Default is Local storage
+    public UPLOAD_STORAGE_TYPE Storage { get; set; } = UPLOAD_STORAGE_TYPE.LOCAL;  // Default is Local storage
 
     public bool IsUsed { get; set; } = false;  // Indicates if the file is actively used
 

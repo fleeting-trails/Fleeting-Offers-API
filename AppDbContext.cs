@@ -2,7 +2,7 @@ using System;
 using FleetingOffers.Module.Advertise;
 using FleetingOffers.Module.Auth;
 using FleetingOffers.Module.Campaign;
-using FleetingOffers.Module.File;
+using FleetingOffers.Module.Upload;
 using FleetingOffers.Module.Location;
 using FleetingOffers.Module.Subscriber;
 using FleetingOffers.Module.User;
@@ -53,7 +53,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)  : DbContext(o
     public DbSet<SubscriberFavouriteAdvertiseEntity> SubscriberFavouriteAdvertises { get; set; }
 
     // File Module
-    public DbSet<FileEntity> Files { get; set; }
+    public DbSet<UploadEntity> Files { get; set; }
 
     // Location Module
     public DbSet<LocationEntity> Locations { get; set; }
