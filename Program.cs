@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using FleetingOffers.Configurations;
 using FleetingOffers.Settings;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ new AutoMapperSettings(builder);
 new JWTSettings(builder);
 new AuthSettings(builder);
 new UploadSettings(builder);
+new DocumentationSettings(builder);
 #endregion
 
 var app = builder.Build();
@@ -50,6 +52,8 @@ foreach (var endpoint in endpointDataSource.Endpoints)
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
+
 }
 
 app.UseHttpsRedirection();

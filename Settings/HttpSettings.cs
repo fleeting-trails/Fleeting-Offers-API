@@ -1,7 +1,8 @@
 namespace FleetingOffers.Settings;
 
 public class HttpSettings {
-    private readonly string[] Allowedhosts;
+    public static string[] Allowedhosts;
+    public const string AdminRoutePrefix = "admin";
     
     public HttpSettings(WebApplicationBuilder builder) {
         var allowed = builder.Configuration["JwtToken:Issuer"];

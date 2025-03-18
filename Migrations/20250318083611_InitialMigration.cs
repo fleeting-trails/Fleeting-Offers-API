@@ -39,24 +39,6 @@ namespace FleetingOffers.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    OriginalName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    URL = table.Column<string>(type: "TEXT", nullable: false),
-                    Storage = table.Column<int>(type: "INTEGER", nullable: false),
-                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
@@ -83,7 +65,7 @@ namespace FleetingOffers.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     HashValue = table.Column<string>(type: "TEXT", nullable: false),
-                    Salt = table.Column<string>(type: "TEXT", nullable: true),
+                    Salt = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
@@ -107,6 +89,24 @@ namespace FleetingOffers.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Uploads",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    OriginalName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    URL = table.Column<string>(type: "TEXT", nullable: false),
+                    Storage = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Uploads", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserSubRoles",
                 columns: table => new
                 {
@@ -116,105 +116,6 @@ namespace FleetingOffers.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSubRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AdvertiseCategories",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Slug = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdvertiseCategories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AdvertiseCategories_Files_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AdvertiseIndustries",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Slug = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdvertiseIndustries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AdvertiseIndustries_Files_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Campaigns",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    ThumbnailImageId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Campaigns", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Campaigns_Files_CoverImageId",
-                        column: x => x.CoverImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Campaigns_Files_ThumbnailImageId",
-                        column: x => x.ThumbnailImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrganizationProfiles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    Subtitle = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    ProfileImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    Website = table.Column<string>(type: "TEXT", nullable: true),
-                    LocationId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrganizationProfiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrganizationProfiles_Files_CoverImageId",
-                        column: x => x.CoverImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_OrganizationProfiles_Files_ProfileImageId",
-                        column: x => x.ProfileImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_OrganizationProfiles_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -248,6 +149,105 @@ namespace FleetingOffers.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AdvertiseCategories",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Slug = table.Column<string>(type: "TEXT", nullable: false),
+                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdvertiseCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdvertiseCategories_Uploads_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Uploads",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdvertiseIndustries",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Slug = table.Column<string>(type: "TEXT", nullable: false),
+                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdvertiseIndustries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdvertiseIndustries_Uploads_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Uploads",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Campaigns",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
+                    ThumbnailImageId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Campaigns", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Campaigns_Uploads_CoverImageId",
+                        column: x => x.CoverImageId,
+                        principalTable: "Uploads",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Campaigns_Uploads_ThumbnailImageId",
+                        column: x => x.ThumbnailImageId,
+                        principalTable: "Uploads",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrganizationProfiles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
+                    Subtitle = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
+                    ProfileImageId = table.Column<string>(type: "TEXT", nullable: true),
+                    Website = table.Column<string>(type: "TEXT", nullable: true),
+                    LocationId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrganizationProfiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrganizationProfiles_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrganizationProfiles_Uploads_CoverImageId",
+                        column: x => x.CoverImageId,
+                        principalTable: "Uploads",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrganizationProfiles_Uploads_ProfileImageId",
+                        column: x => x.ProfileImageId,
+                        principalTable: "Uploads",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserPermissions",
                 columns: table => new
                 {
@@ -276,10 +276,10 @@ namespace FleetingOffers.Migrations
                     Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Role = table.Column<int>(type: "INTEGER", nullable: false),
                     RestrictedUserSubRoleId = table.Column<int>(type: "INTEGER", nullable: true),
-                    UserSubRoleId = table.Column<string>(type: "TEXT", nullable: true),
                     LastLoggedIn = table.Column<DateTime>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPasswordSet = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserSubRoleId = table.Column<string>(type: "TEXT", nullable: true),
                     OtpId = table.Column<string>(type: "TEXT", nullable: true),
                     PasswordId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -300,6 +300,44 @@ namespace FleetingOffers.Migrations
                         name: "FK_Users_UserSubRoles_UserSubRoleId",
                         column: x => x.UserSubRoleId,
                         principalTable: "UserSubRoles",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubscriberInitialPreferenceCategories",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
+                    CategoryId = table.Column<string>(type: "TEXT", nullable: false),
+                    SubscriberEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubscriberInitialPreferenceCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubscriberInitialPreferenceCategories_Subscribers_SubscriberEntityId",
+                        column: x => x.SubscriberEntityId,
+                        principalTable: "Subscribers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubscriberInitialPreferenceIndustries",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
+                    IndustryId = table.Column<string>(type: "TEXT", nullable: false),
+                    SubscriberEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubscriberInitialPreferenceIndustries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubscriberInitialPreferenceIndustries_Subscribers_SubscriberEntityId",
+                        column: x => x.SubscriberEntityId,
+                        principalTable: "Subscribers",
                         principalColumn: "Id");
                 });
 
@@ -338,14 +376,14 @@ namespace FleetingOffers.Migrations
                         principalTable: "AdvertiseIndustries",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Advertises_Files_CoverImageId",
+                        name: "FK_Advertises_Uploads_CoverImageId",
                         column: x => x.CoverImageId,
-                        principalTable: "Files",
+                        principalTable: "Uploads",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Advertises_Files_ThumbnailImageId",
+                        name: "FK_Advertises_Uploads_ThumbnailImageId",
                         column: x => x.ThumbnailImageId,
-                        principalTable: "Files",
+                        principalTable: "Uploads",
                         principalColumn: "Id");
                 });
 
@@ -374,22 +412,21 @@ namespace FleetingOffers.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     OrganizationProfileId = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: false),
+                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
                     OrganizationProfileEntityId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationProfileExtraImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrganizationProfileExtraImages_Files_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_OrganizationProfileExtraImages_OrganizationProfiles_OrganizationProfileEntityId",
                         column: x => x.OrganizationProfileEntityId,
                         principalTable: "OrganizationProfiles",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrganizationProfileExtraImages_Uploads_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Uploads",
                         principalColumn: "Id");
                 });
 
@@ -434,44 +471,6 @@ namespace FleetingOffers.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubscriberInitialPreferenceCategories",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
-                    CategoryId = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberEntityId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubscriberInitialPreferenceCategories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SubscriberInitialPreferenceCategories_Subscribers_SubscriberEntityId",
-                        column: x => x.SubscriberEntityId,
-                        principalTable: "Subscribers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SubscriberInitialPreferenceIndustries",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
-                    IndustryId = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberEntityId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubscriberInitialPreferenceIndustries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SubscriberInitialPreferenceIndustries_Subscribers_SubscriberEntityId",
-                        column: x => x.SubscriberEntityId,
-                        principalTable: "Subscribers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AuthTokens",
                 columns: table => new
                 {
@@ -511,9 +510,9 @@ namespace FleetingOffers.Migrations
                         principalTable: "Advertises",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_AdvertiseAdditionalImageEntity_Files_ImageId",
+                        name: "FK_AdvertiseAdditionalImageEntity_Uploads_ImageId",
                         column: x => x.ImageId,
-                        principalTable: "Files",
+                        principalTable: "Uploads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -973,7 +972,7 @@ namespace FleetingOffers.Migrations
                 name: "SubscriberAuthProviders");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "Uploads");
         }
     }
 }

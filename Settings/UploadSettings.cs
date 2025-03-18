@@ -11,7 +11,7 @@ public class UploadSettings {
         StorageType = UPLOAD_STORAGE_TYPE.LOCAL;
         StoragePath = builder.Configuration["UploadSettings:StoragePath"];
         var _extensionsStr = builder.Configuration["UploadSettings:AllowedExtensions"];
-        var _extension = _extensionsStr != null ? _extensionsStr.Split(",").ToList() : [".pdf", ".png", ".jpg", ".jpeg"];
+        var _extension = _extensionsStr != null ? _extensionsStr.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.Trim()).ToList() : [".pdf", ".png", ".jpg", ".jpeg"];
         AllowedExtensions = _extension;
     }
 }

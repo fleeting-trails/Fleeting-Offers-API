@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using FleetingOffers.Attributes;
 using FleetingOffers.Modules.File;
 using FleetingOffers.Settings;
@@ -6,45 +7,83 @@ using FleetingOffers.Settings;
 namespace FleetingOffers.Module.Upload;
 
 [ScopedService]
-class UploadService {
-    private readonly Dictionary<UPLOAD_STORAGE_TYPE, Func<IEnumerable<IFormFile>, Task<List<CreateUploadDto>>>> UploadWorkerMapping = new() {
+public class UploadService
+{
+    private readonly Dictionary<UPLOAD_STORAGE_TYPE, Func<IEnumerable<IFormFile>, Task<List<UploadDto>>>> UploadWorkerMapping = new() {
         { UPLOAD_STORAGE_TYPE.LOCAL, SaveToLocalAsync }
     };
-    public bool UploadFiles (IEnumerable<IFormFile> files) {
-        if (!UploadWorkerMapping.ContainsKey(UploadSettings.StorageType)) {
+    private readonly IMapper _mapper;
+    private readonly AppDbContext _dbContext;
+    public UploadService(
+        IMapper mapper,
+        AppDbContext dbContext
+    )
+    {
+        _mapper = mapper;
+        _dbContext = dbContext;
+    }
+    public async Task<List<UploadDto>> UploadFilesAsync(IEnumerable<IFormFile> files)
+    {
+        if (!UploadWorkerMapping.ContainsKey(UploadSettings.StorageType))
+        {
             throw new Exception("Storage type not supported");
         }
-        UploadWorkerMapping[UploadSettings.StorageType](files);
-        return false;
+        var dtos = await UploadWorkerMapping[UploadSettings.StorageType](files);
+        foreach (var dto in dtos)
+        {
+            // Save the file to the database
+            _dbContext.Uploads.Add(_mapper.Map<UploadEntity>(dto));
+        }
+        _dbContext.SaveChanges();
+        return dtos;
     }
 
-    public static async Task<List<CreateUploadDto>> SaveToLocalAsync(IEnumerable<IFormFile> files)
+    public static async Task<List<UploadDto>> SaveToLocalAsync(IEnumerable<IFormFile> files)
     {
-        List<CreateUploadDto> FileEntries = [];
+        List<UploadDto> fileEntries = new();
+        List<Task> copyTasks = new(); // ✅ Move outside the loop to ensure all tasks are awaited
+
         foreach (var formFile in files)
         {
             if (formFile.Length > 0)
             {
-                string fileName = $"{System.IO.Path.GetRandomFileName()}{System.IO.Path.GetExtension(formFile.FileName)}";
-                var filePath = System.IO.Path.Combine(UploadSettings.StoragePath, fileName);
+                string fileName = $"{Path.GetRandomFileName()}{Path.GetExtension(formFile.FileName)}";
+                var filePath = Path.Combine(UploadSettings.StoragePath, fileName);
 
-                CreateUploadDto fileDto = new CreateUploadDto(
-                    Name: fileName, 
-                    Location: filePath, 
-                    Storage: UploadSettings.StorageType,
-                    OriginalName: formFile.FileName
-                );
-                FileEntries.Add(fileDto);
+                UploadDto fileDto = new UploadDto() { 
+                    Name = fileName, 
+                    URL = filePath, 
+                    Storage = UPLOAD_STORAGE_TYPE.LOCAL, 
+                    OriginalName = formFile.FileName 
+                };
+                fileEntries.Add(fileDto);
 
-                List<Task> copyTasks = new();
-                using (var stream = System.IO.File.Create(filePath))
+                // ✅ Use "await using" to keep stream open until CopyToAsync completes
+                copyTasks.Add(Task.Run(async () =>
                 {
-                    copyTasks.Add(formFile.CopyToAsync(stream));
-                }
-
-                await Task.WhenAll(copyTasks);
+                    await using var stream = File.Create(filePath);
+                    await formFile.CopyToAsync(stream);
+                }));
             }
         }
-        return FileEntries;
+
+        await Task.WhenAll(copyTasks); // ✅ Ensure all files are written before returning
+        return fileEntries;
     }
+
+    #region Helpers
+
+    public static Boolean IsAllUploadedFileExtensionsValid(IEnumerable<IFormFile> files)
+    {
+        Boolean isValid = true;
+        foreach (var file in files)
+        {
+            if (!UploadSettings.AllowedExtensions.Contains(System.IO.Path.GetExtension(file.FileName)))
+            {
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+    #endregion
 }

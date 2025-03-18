@@ -12,8 +12,6 @@ public class UploadDto
 
     public UPLOAD_STORAGE_TYPE Storage { get; set; } = UPLOAD_STORAGE_TYPE.LOCAL;  // Default is Local storage
 
-    public bool IsUsed { get; set; } = false;  // Indicates if the file is actively used
-
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;  // Default creation timestamp
 
     public DateTime? UpdatedAt { get; set; }  // Timestamp for last update (optional)

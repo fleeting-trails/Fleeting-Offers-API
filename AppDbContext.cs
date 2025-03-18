@@ -53,7 +53,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)  : DbContext(o
     public DbSet<SubscriberFavouriteAdvertiseEntity> SubscriberFavouriteAdvertises { get; set; }
 
     // File Module
-    public DbSet<UploadEntity> Files { get; set; }
+    public DbSet<UploadEntity> Uploads { get; set; }
 
     // Location Module
     public DbSet<LocationEntity> Locations { get; set; }

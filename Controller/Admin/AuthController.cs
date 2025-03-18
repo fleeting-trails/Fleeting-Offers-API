@@ -1,11 +1,12 @@
 using FleetingOffers.Http;
 using FleetingOffers.Modifier;
 using FleetingOffers.Module.Auth;
+using FleetingOffers.Settings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetingOffers.Controller;
 
-[Route("auth")]
+[Route($"{HttpSettings.AdminRoutePrefix}/auth")]
 [ApiController]
 public class AuthControllers : ControllerBase
 {

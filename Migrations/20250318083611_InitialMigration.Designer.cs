@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250214155220_InitialMigration")]
+    [Migration("20250318083611_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -368,6 +368,7 @@ namespace FleetingOffers.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Salt")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -453,42 +454,6 @@ namespace FleetingOffers.Migrations
                     b.HasIndex("ThumbnailImageId");
 
                     b.ToTable("Campaigns");
-                });
-
-            modelBuilder.Entity("FleetingOffers.Module.Upload.UploadEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OriginalName")
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Storage")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("FleetingOffers.Module.Location.LocationEntity", b =>
@@ -681,6 +646,42 @@ namespace FleetingOffers.Migrations
                     b.ToTable("SubscriberInitialPreferenceIndustries");
                 });
 
+            modelBuilder.Entity("FleetingOffers.Module.Upload.UploadEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OriginalName")
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Storage")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Uploads");
+                });
+
             modelBuilder.Entity("FleetingOffers.Module.User.OrganizationProfileEmailEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -754,7 +755,6 @@ namespace FleetingOffers.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationProfileEntityId")
@@ -1157,9 +1157,7 @@ namespace FleetingOffers.Migrations
                 {
                     b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ImageId");
 
                     b.HasOne("FleetingOffers.Module.User.OrganizationProfileEntity", null)
                         .WithMany("ExtraImages")
