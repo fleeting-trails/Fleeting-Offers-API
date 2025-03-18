@@ -10,20 +10,17 @@ namespace FleetingOffers.Module.Auth;
 [ScopedService]
 public class AuthService
 {
-    private readonly AppDbContext _dbContext;
     private readonly MailProvider _mailService;
     private readonly AuthRepository _repository;
     private readonly UserRepository _userRepository;
     private readonly JWTProvider _jwtProvider;
     public AuthService(
-        AppDbContext dbContext, 
         MailProvider mailService, 
         AuthRepository repository, 
         UserRepository userRepository, 
         JWTProvider jWTProvider
     )
     {
-        _dbContext = dbContext;
         _mailService = mailService;
         _repository = repository;
         _userRepository = userRepository;

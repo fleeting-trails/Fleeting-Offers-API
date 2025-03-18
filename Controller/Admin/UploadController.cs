@@ -1,11 +1,12 @@
 using FleetingOffers.Http;
+using FleetingOffers.Modifier;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetingOffers.Controller;
 
 [Route("uploads")]
 [ApiController]
-class FileController : ControllerBase {
+class FileController : AdminController {
     [HttpPost("files")]
     public IActionResult UploadFiles([FromForm] IFormCollection files) {
         try {

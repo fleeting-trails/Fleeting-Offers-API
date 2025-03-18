@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FleetingOffers.Attributes;
 using FleetingOffers.Modules.File;
 using FleetingOffers.Settings;
@@ -6,11 +7,18 @@ namespace FleetingOffers.Module.Upload;
 
 [ScopedService]
 class UploadService {
-    public bool UploadFiles () {
+    private readonly Dictionary<UPLOAD_STORAGE_TYPE, Func<IEnumerable<IFormFile>, Task<List<CreateUploadDto>>>> UploadWorkerMapping = new() {
+        { UPLOAD_STORAGE_TYPE.LOCAL, SaveToLocalAsync }
+    };
+    public bool UploadFiles (IEnumerable<IFormFile> files) {
+        if (!UploadWorkerMapping.ContainsKey(UploadSettings.StorageType)) {
+            throw new Exception("Storage type not supported");
+        }
+        UploadWorkerMapping[UploadSettings.StorageType](files);
         return false;
     }
 
-    public static List<CreateUploadDto> SaveToLocal(IEnumerable<IFormFile> files)
+    public static async Task<List<CreateUploadDto>> SaveToLocalAsync(IEnumerable<IFormFile> files)
     {
         List<CreateUploadDto> FileEntries = [];
         foreach (var formFile in files)
@@ -28,10 +36,13 @@ class UploadService {
                 );
                 FileEntries.Add(fileDto);
 
+                List<Task> copyTasks = new();
                 using (var stream = System.IO.File.Create(filePath))
                 {
-                    formFile.CopyTo(stream);
+                    copyTasks.Add(formFile.CopyToAsync(stream));
                 }
+
+                await Task.WhenAll(copyTasks);
             }
         }
         return FileEntries;
