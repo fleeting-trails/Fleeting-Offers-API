@@ -88,11 +88,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
                 if (entry.State == EntityState.Added)
                 {
-                    this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed + 1 WHERE Id = {0}", fileId);
+                    this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = {0}", fileId);
                 }
                 else if (entry.State == EntityState.Deleted)
                 {
-                    this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed - 1 WHERE Id = {0}", fileId);
+                    this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = {0}", fileId);
                 }
                 else if (entry.State == EntityState.Modified)
                 {
@@ -103,12 +103,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     {
                         if (oldFileId != null)
                         {
-                            this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed - 1 WHERE Id = {0}", oldFileId);
+                            this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = {0}", oldFileId);
                         }
 
                         if (newFileId != null)
                         {
-                            this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed + 1 WHERE Id = {0}", newFileId);
+                            this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = {0}", newFileId);
                         }
                     }
                 }
