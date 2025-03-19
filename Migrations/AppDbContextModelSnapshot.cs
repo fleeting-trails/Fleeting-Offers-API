@@ -652,13 +652,13 @@ namespace FleetingOffers.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("NumberOfUsage")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("OriginalName")
                         .HasMaxLength(255)

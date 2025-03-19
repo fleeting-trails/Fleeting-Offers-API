@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FleetingOffers;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options)  : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
 
     // User Module
@@ -67,4 +67,55 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)  : DbContext(o
             AdvertiseDealTypesSeeder.Seed(context);
             SuperAdminSeeder.Seed(context);
         });
+
+
+    // Update the upload count when an entity is added, deleted or modified
+    public int SaveChangesWithUploads(string[] fileRefs)
+    {
+        var changes = ChangeTracker.Entries().ToList();
+
+        foreach (var entry in changes)
+        {
+            var entity = entry.Entity;
+            foreach (var fileRef in fileRefs)
+            {
+
+                var propertyInfo = entity.GetType().GetProperty(fileRef);
+                if (propertyInfo == null) continue; // Skip if entity does not have this property
+
+                var fileId = propertyInfo.GetValue(entity)?.ToString();
+                if (string.IsNullOrEmpty(fileId)) continue; // Skip null or empty file IDs
+
+                if (entry.State == EntityState.Added)
+                {
+                    this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed + 1 WHERE Id = {0}", fileId);
+                }
+                else if (entry.State == EntityState.Deleted)
+                {
+                    this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed - 1 WHERE Id = {0}", fileId);
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    var oldFileId = entry.OriginalValues["FileId"] as string;
+                    var newFileId = fileId;
+
+                    if (oldFileId != newFileId)
+                    {
+                        if (oldFileId != null)
+                        {
+                            this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed - 1 WHERE Id = {0}", oldFileId);
+                        }
+
+                        if (newFileId != null)
+                        {
+                            this.Database.ExecuteSqlRaw($"UPDATE {nameof(Uploads)} SET NumberOfTimeUsed = NumberOfTimeUsed + 1 WHERE Id = {0}", newFileId);
+                        }
+                    }
+                }
+            }
+        }
+
+        return base.SaveChanges();
+    }
+
 }

@@ -24,7 +24,7 @@ public class UploadEntity
     public UPLOAD_STORAGE_TYPE Storage { get; set; } = UPLOAD_STORAGE_TYPE.LOCAL;  // Default is Local storage
 
     [Required]
-    public bool IsUsed { get; set; } = false;  // Indicates if the file is actively used
+    public int NumberOfUsage { get; set; } = 0;  // Indicates if the file is actively used
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;  // Default creation timestamp
 
