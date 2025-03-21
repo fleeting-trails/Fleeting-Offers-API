@@ -1,0 +1,19 @@
+{
+  "SUPER_ADMIN": {
+    "module": {
+      "USER": {
+        "CREATE": "ANY",
+        "READ": "ANY",
+        "UPDATE": "ANY",
+        "DELETE": "ANH"
+      },
+      "ADVERTISE": {
+        "CREATE": "IF_ALLOWED",
+        "READ": "IF_ALLOWED"
+
+      }
+    }
+  },
+  "ADMIN": {},
+  "ORGANIZATION": {}
+}
