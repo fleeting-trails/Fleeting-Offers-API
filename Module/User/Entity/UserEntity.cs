@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FleetingOffers.Common.Enums;
+using FleetingOffers.Common.Enum;
 using FleetingOffers.Module.Auth;
 using FleetingOffers.Module.Upload;
 using FleetingOffers.Module.Location;

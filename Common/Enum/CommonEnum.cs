@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace FleetingOffers.Common.Enums;
+namespace FleetingOffers.Common.Enum;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SOCIAL_MEDIA_TYPE {

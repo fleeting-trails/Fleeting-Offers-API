@@ -4,13 +4,40 @@
       "USER": {
         "CREATE": "ANY",
         "READ": "ANY",
-        "UPDATE": "ANY",
-        "DELETE": "ANH"
+        "UPDATE": "OWN",
+        "DELETE": "ANY",
+        "UPDATE_STATUS": "ANY"
       },
       "ADVERTISE": {
-        "CREATE": "IF_ALLOWED",
-        "READ": "IF_ALLOWED"
-
+        "CREATE": "ON_CONDITION",
+        "READ": "ANY",
+        "UPDATE": "ON_CONDITION",
+        "DELETE": "ANY"
+      },
+      "CAMPAIGN": {
+        "CREATE": "NO",
+        "READ": "ANY",
+        "UPDATE": "ON_CONDITION",
+        "DELETE": "ANY"
+      },
+      "SUBSCRIBER": {
+        "CREATE": "NO",
+        "READ": "ANY",
+        "UPDATE": "NO",
+        "DELETE": "ANY",
+        "UPDATE_STATUS": "ANY"
+      },
+      "UPLOAD": {
+        "CREATE": "ANY",
+        "READ": "ANY",
+        "UPDATE": "ANY",
+        "DELETE": "ANY"
+      },
+      "LOCATION": {
+        "CREATE": "ANY",
+        "READ": "ANY",
+        "UPDATE": "ANY",
+        "DELETE": "ANY"
       }
     }
   },

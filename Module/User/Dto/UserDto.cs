@@ -1,4 +1,4 @@
-using FleetingOffers.Common.Enums;
+using FleetingOffers.Common.Enum;
 using FleetingOffers.Module.Upload;
 
 namespace FleetingOffers.Module.User;
