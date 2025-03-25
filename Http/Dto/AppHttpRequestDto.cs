@@ -6,5 +6,6 @@ public record HttpPayloadDto (
     string Token,
     string UserId,
     USER_ROLE Role,
-    string? Device
+    string? Device,
+    bool IsValidToken
 );

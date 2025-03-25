@@ -1,3 +1,4 @@
+using FleetingOffers.Common.Enum;
 using FleetingOffers.Http;
 using FleetingOffers.Modifier;
 using FleetingOffers.Module.Upload;
@@ -8,7 +9,7 @@ namespace FleetingOffers.Controller;
 
 [Route($"{HttpSettings.AdminRoutePrefix}/upload")]
 [ApiController]
-public class UploadController : ControllerBase
+public class UploadController : AdminControllerBase
 {
     private readonly UploadService _service;
     public UploadController(UploadService uploadService)
@@ -17,26 +18,33 @@ public class UploadController : ControllerBase
     }
 
     [HttpPost("files")]
-    [HttpAuthorize("User")]
     public async Task<IActionResult> UploadFiles([FromForm] IFormFileCollection files)
     {
-        try
-        {
-            if (files == null || !files.Any())
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.UPLOAD,
+            "CREATE",
+            async () =>
             {
-                return AppHttpResponse.BadRequest("No files received");
-            }
+                try
+                {
+                    if (files == null || !files.Any())
+                    {
+                        return AppHttpResponse.BadRequest("No files received");
+                    }
 
-            if (!UploadService.IsAllUploadedFileExtensionsValid(files))
-            {
-                return AppHttpResponse.BadRequest($"All Files must be {string.Join(", ", UploadSettings.AllowedExtensions)}");
+                    if (!UploadService.IsAllUploadedFileExtensionsValid(files))
+                    {
+                        return AppHttpResponse.BadRequest($"All Files must be {string.Join(", ", UploadSettings.AllowedExtensions)}");
+                    }
+                    var uploaded = await _service.UploadFilesAsync(files);
+                    return AppHttpResponse.Ok(uploaded, "Files Uploaded Successfully");
+                }
+                catch (Exception e)
+                {
+                    return AppHttpResponse.BadRequest(e.Message);
+                }
             }
-            var uploaded = await _service.UploadFilesAsync(files);
-            return AppHttpResponse.Ok(uploaded, "Files Uploaded Successfully");
-        }
-        catch (Exception e)
-        {
-            return AppHttpResponse.BadRequest(e.Message);
-        }
+        );
     }
 }

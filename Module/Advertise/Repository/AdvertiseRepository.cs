@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AutoMapper;
 using FleetingOffers.Attributes;
 
@@ -17,7 +18,7 @@ public class AdvertiseRepository
         _mapper = mapper;
     }
 
-    public AdvertiseDto CreateAdvertise(List<AdvertiseOwnerPayloadDto> owners, CreateAdvertisePayloadDto payloadDto, string createdBy)
+    public async Task<AdvertiseDto> CreateAdvertiseAsync(List<AdvertiseOwnerPayloadDto> owners, CreateAdvertisePayloadDto payloadDto, string createdBy)
     {
         var advertise = new AdvertiseEntity
         {
@@ -44,7 +45,7 @@ public class AdvertiseRepository
             };
             _dbContext.AdvertiseOwners.Add(advertiseOwner);
         }
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
         return _mapper.Map<AdvertiseDto>(advertise);
     }
 }

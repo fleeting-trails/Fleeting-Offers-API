@@ -1,42 +1,22 @@
 {
   "SUPER_ADMIN": {
     "USER": {
-      "CREATE": "ANY",
-      "READ": "ANY",
-      "UPDATE": "OWN",
-      "DELETE": "ANY",
-      "UPDATE_STATUS": "ANY"
+      "CREATE": true,
+      "READ": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "UPDATE_STATUS": true
     },
     "ADVERTISE": {
-      "CREATE": "ON_CONDITION",
-      "READ": "ANY",
-      "UPDATE": "ON_CONDITION",
-      "DELETE": "ANY"
-    },
-    "CAMPAIGN": {
-      "CREATE": "NO",
-      "READ": "ANY",
-      "UPDATE": "ON_CONDITION",
-      "DELETE": "ANY"
-    },
-    "SUBSCRIBER": {
-      "CREATE": "NO",
-      "READ": "ANY",
-      "UPDATE": "NO",
-      "DELETE": "ANY",
-      "UPDATE_STATUS": "ANY"
-    },
-    "UPLOAD": {
-      "CREATE": "ANY",
-      "READ": "ANY",
-      "UPDATE": "ANY",
-      "DELETE": "ANY"
-    },
-    "LOCATION": {
-      "CREATE": "ANY",
-      "READ": "ANY",
-      "UPDATE": "ANY",
-      "DELETE": "ANY"
+      "CREATE": false,
+      "CREATE_IF_ALLOWED": true,
+      "READ": true,
+      "UPDATE": false,
+      "UPDATE_OWN": true,
+      "UPDATE_IF_ALLOWED": true,
+      "DELETE": false,
+      "DELETE_OWN": true,
+      "UPDATE_STATUS": true
     }
   },
   "ADMIN": {},

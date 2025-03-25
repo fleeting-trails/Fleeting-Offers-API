@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using FleetingOffers.Common.Enum;
 using FleetingOffers.Http;
 using FleetingOffers.Modifier;
 using FleetingOffers.Module.Auth;
@@ -8,7 +10,7 @@ namespace FleetingOffers.Controller;
 
 [Route($"{HttpSettings.AdminRoutePrefix}/auth")]
 [ApiController]
-public class AuthControllers : ControllerBase
+public class AuthControllers : AdminControllerBase
 {
     private readonly AuthService _service;
     public AuthControllers(AuthService service)
@@ -58,21 +60,28 @@ public class AuthControllers : ControllerBase
         }
     }
 
-
-    [HttpAuthorize("User")]
     [HttpPost("logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        try
-        {
-            var AuthorizationResponse = HttpContext.Items["AuthorizationPayload"] as TokenValidationResponse ?? throw new Exception("System Error");
-            _service.Logout(AuthorizationResponse.UserId!, AuthorizationResponse.Token!, AuthorizationResponse.Device);
-            return AppHttpResponse.Ok("Logout Successful");
-        }
-        catch (Exception e)
-        {
-            return AppHttpResponse.BadRequest(e.Message);
-        }
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.AUTH,
+            "_",
+            async () =>
+            {
+                try
+                {
+                    var AuthorizationResponse = HttpContext.Items["AuthorizationPayload"] as TokenValidationResponse ?? throw new Exception("System Error");
+                    _service.Logout(AuthorizationResponse.UserId!, AuthorizationResponse.Token!, AuthorizationResponse.Device);
+                    return AppHttpResponse.Ok("Logout Successful");
+                }
+                catch (Exception e)
+                {
+                    return AppHttpResponse.BadRequest(e.Message);
+                }
+            },
+            true
+        );
     }
 
 }

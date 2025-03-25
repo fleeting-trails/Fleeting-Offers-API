@@ -11,6 +11,7 @@ using FleetingOffers.Configurations;
 
 namespace FleetingOffers.Modifier;
 
+[Obsolete("Use AdminControllerBase.WithPermission() instead. This class is deprecated and will be removed soon.", true)]
 public class HttpAuthorize : Attribute, IAuthorizationFilter
 {
     public static string _role;

@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 
 namespace FleetingOffers.Common.Enum;
 
-public enum MODULES {
+public enum APP_MODULE {
     [EnumMember(Value = "AUTH")]
     AUTH,
     [EnumMember(Value = "USER")]
