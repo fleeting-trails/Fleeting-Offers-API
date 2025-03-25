@@ -355,7 +355,8 @@ namespace FleetingOffers.Migrations
                     ThumbnailImageId = table.Column<string>(type: "TEXT", nullable: true),
                     CategoryId = table.Column<string>(type: "TEXT", nullable: true),
                     SubCategoryId = table.Column<string>(type: "TEXT", nullable: true),
-                    DealTypeId = table.Column<string>(type: "TEXT", nullable: true)
+                    DealTypeId = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

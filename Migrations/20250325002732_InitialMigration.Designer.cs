@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250319101100_InitialMigration")]
+    [Migration("20250325002732_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -128,6 +128,10 @@ namespace FleetingOffers.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CoverImageId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DealTypeId")

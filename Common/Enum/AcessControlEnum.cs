@@ -3,6 +3,10 @@ using System.Runtime.Serialization;
 namespace FleetingOffers.Common.Enum;
 
 public enum ACCESS_CONTROL_SCOPE {
+    [EnumMember(Value = "NO")]
+    NO,
+    [EnumMember(Value = "ANY")]
+    ANY,
     [EnumMember(Value = "ALL")]
     ALL,
     [EnumMember(Value = "OWN")]

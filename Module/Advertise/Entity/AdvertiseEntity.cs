@@ -43,6 +43,8 @@ public class AdvertiseEntity
     public string? DealTypeId { get; set; }
     public AdvertiseDealTypeEntity? DealType { get; set; }
 
+    public string CreatedBy { get; set; } // User ID
+
     // Relationships
     public ICollection<AdvertiseLocationEntity> Locations { get; set; } = new List<AdvertiseLocationEntity>();
     public ICollection<AdvertiseRelatedAdvertiseEntity> RelatedAdvertises { get; set; } = new List<AdvertiseRelatedAdvertiseEntity>();

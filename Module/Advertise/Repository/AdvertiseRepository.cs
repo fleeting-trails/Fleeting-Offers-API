@@ -17,7 +17,7 @@ public class AdvertiseRepository
         _mapper = mapper;
     }
 
-    public AdvertiseDto CreateAdvertise(List<AdvertiseOwnerPayloadDto> owners, CreateAdvertisePayloadDto payloadDto)
+    public AdvertiseDto CreateAdvertise(List<AdvertiseOwnerPayloadDto> owners, CreateAdvertisePayloadDto payloadDto, string createdBy)
     {
         var advertise = new AdvertiseEntity
         {
@@ -29,7 +29,8 @@ public class AdvertiseRepository
             CoverImageId = payloadDto.CoverImageId,
             ThumbnailImageId = payloadDto.ThumbnailImageId,
             CategoryId = payloadDto.CategoryId,
-            SubCategoryId = payloadDto.SubCategoryId
+            SubCategoryId = payloadDto.SubCategoryId,
+            CreatedBy = createdBy
         };
         _dbContext.Advertises.Add(advertise);
         _dbContext.SaveChangesWithUploads(["CoverImageId", "ThumbnailImageId"]);

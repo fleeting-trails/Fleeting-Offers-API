@@ -1,11 +1,15 @@
 using FleetingOffers.Attributes;
 using FleetingOffers.Module.Auth;
+using FleetingOffers.Module.User;
 
 namespace FleetingOffers.Http;
 
 [ScopedService]
 public class HttpHelper {
-    public static TokenValidationResponse? GetAuthorizationPayload(HttpContext context) {
-        return (TokenValidationResponse?) context.Items["AuthorizationPayload"];
+    public static HttpPayloadDto GetAuthorizationPayload(HttpContext context) {
+        
+        var res =  (TokenValidationResponse?)context.Items["AuthorizationPayload"];
+        if (res == null || res.Token == null || res.Role == null || res.UserId == null) throw new Exception("Failed to Process Authorization");
+        return new HttpPayloadDto(res.Token, res.UserId, (USER_ROLE)res.Role, res.Device);
     }
 }

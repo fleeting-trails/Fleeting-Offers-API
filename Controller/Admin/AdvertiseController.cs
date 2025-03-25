@@ -16,9 +16,8 @@ public class AdvertiseController : ControllerBase {
     public IActionResult CreateAdvertise([FromBody] CreateAdvertisePayloadDto body) {
         try {
             var payload = HttpHelper.GetAuthorizationPayload(HttpContext);
-            if (payload == null || payload.UserId == null) return AppHttpResponse.BadRequest("Failed to Process Authorization");
             var owners = new List<AdvertiseOwnerPayloadDto> { new AdvertiseOwnerPayloadDto { UserId = payload.UserId, OwnershipType = ADVERTISE_OWNERSHIP.OWNER } };
-            var advertise = _service.CreateAdvertise(owners, body);
+            var advertise = _service.CreateAdvertise(owners, body, payload.UserId);
             return AppHttpResponse.Ok(advertise);
         } catch (Exception e) {
             return AppHttpResponse.BadRequest(e.Message);
@@ -28,7 +27,8 @@ public class AdvertiseController : ControllerBase {
     [HttpPost("/create/by-admin")]
     public IActionResult CreateAdvertiseByAdmin([FromBody] CreateAdvertiseByAdminPayloadDto body) {
         try {
-            var advertise = _service.CreateAdvertise(body.Owners, body.Advertise);
+            var payload = HttpHelper.GetAuthorizationPayload(HttpContext);
+            var advertise = _service.CreateAdvertise(body.Owners, body.Advertise, payload.UserId);
             return AppHttpResponse.Ok(advertise);
         } catch (Exception e) {
             return AppHttpResponse.BadRequest(e.Message);

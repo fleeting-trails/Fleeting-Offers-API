@@ -127,6 +127,10 @@ namespace FleetingOffers.Migrations
                     b.Property<string>("CoverImageId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("DealTypeId")
                         .HasColumnType("TEXT");
 
