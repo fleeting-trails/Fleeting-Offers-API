@@ -16,8 +16,10 @@ public class AuthSettings
         ("Admin", [USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN]),
         ("User", [USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN, USER_ROLE.ORGANIZATION])
     };
+    public static string? DeveloperSecret; 
     public AuthSettings (WebApplicationBuilder builder)
     {
+        DeveloperSecret = builder.Configuration["Developer:Secret"];
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

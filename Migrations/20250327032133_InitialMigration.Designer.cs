@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250325002732_InitialMigration")]
+    [Migration("20250327032133_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
