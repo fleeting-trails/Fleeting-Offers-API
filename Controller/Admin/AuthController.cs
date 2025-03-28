@@ -1,7 +1,5 @@
-using System.Threading.Tasks;
 using FleetingOffers.Common.Enum;
 using FleetingOffers.Http;
-using FleetingOffers.Modifier;
 using FleetingOffers.Module.Auth;
 using FleetingOffers.Settings;
 using Microsoft.AspNetCore.Mvc;

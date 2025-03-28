@@ -127,7 +127,7 @@ namespace FleetingOffers.Migrations
                     b.Property<string>("CoverImageId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CreatedBy")
+                    b.Property<string>("CreatedById")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -163,6 +163,8 @@ namespace FleetingOffers.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CoverImageId");
+
+                    b.HasIndex("CreatedById");
 
                     b.HasIndex("DealTypeId");
 
@@ -948,6 +950,12 @@ namespace FleetingOffers.Migrations
                         .WithMany()
                         .HasForeignKey("CoverImageId");
 
+                    b.HasOne("FleetingOffers.Module.User.UserEntity", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FleetingOffers.Module.Advertise.AdvertiseDealTypeEntity", "DealType")
                         .WithMany()
                         .HasForeignKey("DealTypeId");
@@ -963,6 +971,8 @@ namespace FleetingOffers.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("CoverImage");
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("DealType");
 

@@ -23,7 +23,7 @@ public class AdminControllerBase : ControllerBase {
             return await actionToRun();
         }
         catch (Exception ex)
-        {
+        { 
             return new UnauthorizedObjectResult(ex.Message);
         }
     }

@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FleetingOffers.Attributes;
 using FleetingOffers.Http;
 
@@ -21,6 +22,7 @@ public class GeneralSettings
         .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
     }
     private void RegisterAllScopedClasses(WebApplicationBuilder builder)

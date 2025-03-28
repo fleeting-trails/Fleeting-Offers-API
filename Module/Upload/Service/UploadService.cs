@@ -28,13 +28,17 @@ public class UploadService
             throw new Exception("Storage type not supported");
         }
         var dtos = await UploadWorkerMapping[UploadSettings.StorageType](files);
+        var uploadedEntities = new List<UploadEntity>();
         foreach (var dto in dtos)
         {
             // Save the file to the database
-            _dbContext.Uploads.Add(_mapper.Map<UploadEntity>(dto));
+            var entity = _mapper.Map<UploadEntity>(dto);
+            _dbContext.Uploads.Add(_mapper.Map<UploadEntity>(entity));
+            uploadedEntities.Add(entity);
         }
         _dbContext.SaveChanges();
-        return dtos;
+        
+        return uploadedEntities.Select(e => _mapper.Map<UploadDto>(e)).ToList();
     }
 
     public static async Task<List<UploadDto>> SaveToLocalAsync(IEnumerable<IFormFile> files)

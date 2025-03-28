@@ -42,8 +42,8 @@ public class AdvertiseEntity
     // Foreign Key for Deal Type
     public string? DealTypeId { get; set; }
     public AdvertiseDealTypeEntity? DealType { get; set; }
-
-    public string CreatedBy { get; set; } // User ID
+    [Required]
+    public string CreatedById { get; set; }
 
     // Relationships
     public ICollection<AdvertiseLocationEntity> Locations { get; set; } = new List<AdvertiseLocationEntity>();
@@ -51,6 +51,7 @@ public class AdvertiseEntity
     public ICollection<AdvertiseAdditionalImageEntity> AdditionalImages { get; set; } = new List<AdvertiseAdditionalImageEntity>();
     public ICollection<AdvertiseTagEntity> Tags { get; set; } = new List<AdvertiseTagEntity>();
     public ICollection<AdvertiseOwnerEntity> Owners { get; set; } = new List<AdvertiseOwnerEntity>();
+    public UserEntity CreatedBy { get; set; }
 
     public AdvertiseAnalyticsEntity? Analytics { get; set; }
 }

@@ -11,7 +11,6 @@ builder.Services.AddOpenApi();
 
 
 // Initialize database
-
 #region Initializations
 new HttpSettings(builder);
 new DatabaseSettings(builder);

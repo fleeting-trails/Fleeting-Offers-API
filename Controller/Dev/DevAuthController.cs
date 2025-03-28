@@ -1,11 +1,11 @@
 using FleetingOffers.Http;
 using FleetingOffers.Module.Auth;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetingOffers.Controller.Dev;
 
-[Microsoft.AspNetCore.Mvc.Route("dev/auth/")]
+[Route("dev/auth")]
+[ApiController]
 public class DevAuthController : DevControllerBase
 {
     private readonly DevAuthService _service;

@@ -21,6 +21,7 @@ public class AdvertiseDto
     public string? CategoryId { get; set; }
 
     public string? SubCategoryId { get; set; }
+    public string CreatedById { get; set; }
 }
 
 
@@ -30,6 +31,7 @@ public class AdvertiseOwnerDto
 
     public string AdvertiseId { get; set; }
     public string UserId { get; set; }
+    public ADVERTISE_OWNERSHIP OwnershipType { get; set; }  // Enum
 }
 
 public class AdvertiseLocationDto
