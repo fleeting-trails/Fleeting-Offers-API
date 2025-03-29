@@ -24,6 +24,9 @@ public class UploadEntity
     public UPLOAD_STORAGE_TYPE Storage { get; set; } = UPLOAD_STORAGE_TYPE.LOCAL;  // Default is Local storage
 
     [Required]
+    public string MimeType { get; set;}
+
+    [Required]
     public int NumberOfUsage { get; set; } = 0;  // Indicates if the file is actively used
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;  // Default creation timestamp

@@ -2,6 +2,7 @@ using AutoMapper;
 using FleetingOffers;
 using FleetingOffers.Attributes;
 using FleetingOffers.Provider;
+using FleetingOffers.Settings;
 using Org.BouncyCastle.Bcpg;
 
 namespace FleetingOffers.Module.Auth;

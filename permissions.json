@@ -15,6 +15,9 @@
   "ORGANIZATION": {
     "ADVERTISE": {
       "CREATE": true
+    },
+    "UPLOAD": {
+      "CREATE": true
     }
   }
 }

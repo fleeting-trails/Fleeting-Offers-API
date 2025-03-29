@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250327103513_InitialMigration")]
+    [Migration("20250329020912_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -659,6 +659,10 @@ namespace FleetingOffers.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

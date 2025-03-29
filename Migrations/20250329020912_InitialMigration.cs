@@ -97,6 +97,7 @@ namespace FleetingOffers.Migrations
                     OriginalName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     URL = table.Column<string>(type: "TEXT", nullable: false),
                     Storage = table.Column<int>(type: "INTEGER", nullable: false),
+                    MimeType = table.Column<string>(type: "TEXT", nullable: false),
                     NumberOfUsage = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)

@@ -11,6 +11,7 @@ public class UploadDto
     public string URL { get; set; }  // Path or URL to the file location
 
     public UPLOAD_STORAGE_TYPE Storage { get; set; } = UPLOAD_STORAGE_TYPE.LOCAL;  // Default is Local storage
+    public string MimeType { get; set; }  // Default is Local storage
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;  // Default creation timestamp
 

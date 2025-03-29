@@ -7,6 +7,7 @@ using FleetingOffers.Module.Location;
 using FleetingOffers.Module.Subscriber;
 using FleetingOffers.Module.User;
 using Microsoft.EntityFrameworkCore;
+using FleetingOffers.Util.Helper;
 
 namespace FleetingOffers;
 
@@ -69,8 +70,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         });
 
 
+    public record SaveChangesWithUploadsAsyncPropsDto(
+        string Key,
+        string[] AllowedTypes
+    );
     // Update the upload count when an entity is added, deleted or modified
-    public async Task<int> SaveChangesWithUploadsAsync(string[] fileRefs)
+    public async Task<int> SaveChangesWithUploadsAsync(SaveChangesWithUploadsAsyncPropsDto[] fileRefs)
     {
         var changes = ChangeTracker.Entries().ToList();
 
@@ -80,19 +85,28 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             foreach (var fileRef in fileRefs)
             {
 
-                var propertyInfo = entity.GetType().GetProperty(fileRef);
+                var propertyInfo = entity.GetType().GetProperty(fileRef.Key);
                 if (propertyInfo == null) continue; // Skip if entity does not have this property
 
                 var fileId = propertyInfo.GetValue(entity)?.ToString();
                 if (string.IsNullOrEmpty(fileId)) continue; // Skip null or empty file IDs
+                var uploadEntity = await this.Uploads.FindAsync(fileId);
+                if (uploadEntity == null)
+                {
+                    throw new Exception($"UPLOAD_404: File {fileId} of property {fileRef.Key} is not found. Please refer a valid file"); // Skip if upload entity not found
+                }
 
+                if (!Helper.IsAllowedMimeType(uploadEntity.MimeType, fileRef.AllowedTypes))
+                {
+                    throw new Exception($"WRONG_MIMTYPE: MIME type not allowed for File {fileId}. Only {string.Join(",", fileRef.AllowedTypes)}");// Check if the file type is allowed
+                }
                 if (entry.State == EntityState.Added)
                 {
-                    await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = {0}", fileId);
+                    await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = @p0", new object[] { fileId });
                 }
                 else if (entry.State == EntityState.Deleted)
                 {
-                    await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = {0}", fileId);
+                    await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = @p0", new object[] { fileId });
                 }
                 else if (entry.State == EntityState.Modified)
                 {
@@ -103,12 +117,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     {
                         if (oldFileId != null)
                         {
-                            await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = {0}", oldFileId);
+                            await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = @p0", new object[] { oldFileId });
                         }
 
                         if (newFileId != null)
                         {
-                            await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = {0}", newFileId);
+                            await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = @p0", new object[] { newFileId });
                         }
                     }
                 }

@@ -57,7 +57,8 @@ public class UploadService
                     Name = fileName, 
                     URL = filePath, 
                     Storage = UPLOAD_STORAGE_TYPE.LOCAL, 
-                    OriginalName = formFile.FileName 
+                    OriginalName = formFile.FileName ,
+                    MimeType = formFile.ContentType
                 };
                 fileEntries.Add(fileDto);
 
