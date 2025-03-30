@@ -17,6 +17,38 @@ public class AdvertiseController : AdminControllerBase
     }
 
     /// <summary>
+    /// Get an advertise.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Organization
+    /// </remarks>
+    /// <response code="200">AD Details</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpPost("get")]
+    public async Task<IActionResult> GetAdvertise(string advertiseId)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "READ_OWN",
+            async () =>
+            {
+                try
+                {
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    var res = await _service.GetAdvertiseAsync(authPayload.UserId, advertiseId);
+                    return AppHttpResponse.Ok(res, "Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
+
+    }
+
+    /// <summary>
     /// Creates an advertise entry.
     /// </summary>
     /// <remarks>

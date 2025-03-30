@@ -1,5 +1,7 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FleetingOffers.Attributes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static FleetingOffers.AppDbContext;
 
@@ -14,6 +16,17 @@ public class AdvertiseRepository
     {
         _dbContext = context;
         _mapper = mapper;
+    }
+    public async Task<AdvertiseProjection_AllDto?> GetOwnAdvertiseWithAllAsync(string userId, string id)
+    {
+        // Not implemented
+        var advertiseDto = await _dbContext.Advertises
+            .AsQueryable()
+            .Where(a => a.Id == id && (a.Owners.Any(o => o.UserId == userId) || a.CreatedById == userId))
+            .ProjectTo<AdvertiseProjection_AllDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync();
+
+        return advertiseDto;
     }
     public async Task<AdvertiseDto> CreateAdvertiseAsync(
         string createdBy,

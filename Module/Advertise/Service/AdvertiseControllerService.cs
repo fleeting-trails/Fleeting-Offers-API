@@ -19,7 +19,14 @@ public class AdvertiseControllerService {
         _mapper = mapper;
 
     }
-    
+    public async Task<AdvertiseDto> GetAdvertiseAsync (string userId, string id) {
+        // Implementation
+        var advertise = await _repository.GetOwnAdvertiseWithAllAsync(userId, id);
+        if (advertise == null) {
+            throw new Exception("ADVERTISE_404: Please provide a valid advertise id");
+        }
+        return advertise;
+    }
     public async Task CreateAdvertiseAsync(string createdBy, CreateAdvertiseDto dto) {
         // Implementation
         _validator.ValidateCreateAdvertise(dto);
