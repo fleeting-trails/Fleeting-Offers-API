@@ -9,6 +9,9 @@
     },
     "UPLOAD": {
       "CREATE": true
+    },
+    "ADVERTISE": {
+      "CREATE_BY_ADMIN": true
     }
   },
   "ADMIN": {},

@@ -16,6 +16,14 @@ public class AdvertiseController : AdminControllerBase
         _service = advertiseService;
     }
 
+    /// <summary>
+    /// Creates an advertise entry.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Organization
+    /// </remarks>
+    /// <response code="200">Ad created</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpPost("create")]
     public async Task<IActionResult> CreateAdvertise([FromBody] CreateAdvertiseDto dto)
     {
@@ -39,6 +47,14 @@ public class AdvertiseController : AdminControllerBase
         );
 
     }
+    /// <summary>
+    /// Creates an advertise for organization by admin.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Admin, SuperAdmin
+    /// </remarks>
+    /// <response code="200">Ad created</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpPost("create-by-admin")]
     public async Task<IActionResult> CreateAdvertiseByAdmin([FromBody] CreateAdvertiseAdminDto dto)
     {

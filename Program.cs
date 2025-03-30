@@ -51,7 +51,10 @@ foreach (var endpoint in endpointDataSource.Endpoints)
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
     app.MapScalarApiReference();
+    app.UseSwaggerUI(); // optional, Scalar will still work without this
+
 
 }
 

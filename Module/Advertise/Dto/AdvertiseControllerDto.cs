@@ -30,8 +30,8 @@ public class CreateAdvertiseDto
 
 public class CreateAdvertiseAdminDto
 {
-    public CreateAdvertiseDto Advertise;
-    public List<_CreateAdvertiseOwnerInCreateAdvertiseDto> Owners;
+    public CreateAdvertiseDto Advertise { get; set; }
+    public List<_CreateAdvertiseOwnerInCreateAdvertiseDto> Owners { get; set; }
 }
 
 #region DependentDtos

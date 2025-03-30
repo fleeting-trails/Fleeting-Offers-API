@@ -8,10 +8,10 @@ namespace FleetingOffers.Controller;
 
 [Route($"{HttpSettings.AdminRoutePrefix}/auth")]
 [ApiController]
-public class AuthControllers : AdminControllerBase
+public class AuthController : AdminControllerBase
 {
     private readonly AuthService _service;
-    public AuthControllers(AuthService service)
+    public AuthController(AuthService service)
     {
         _service = service;
     }
