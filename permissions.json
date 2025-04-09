@@ -14,7 +14,8 @@
       "CREATE_BY_ADMIN": true,
       "LIST_OWN": true,
       "LIST_ALL": true,
-      "READ_OWN": true
+      "READ_OWN": true,
+      "READ": true
     }
   },
   "ADMIN": {},

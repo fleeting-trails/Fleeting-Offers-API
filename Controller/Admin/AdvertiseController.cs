@@ -16,14 +16,14 @@ public class AdvertiseController : AdminControllerBase
         _service = advertiseService;
     }
     /// <summary>
-    /// List advertise paginated.
+    /// List own advertises paginated.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Organization, Admin, SuperAdmin
     /// </remarks>
     /// <response code="200">AD Details</response>
     /// <response code="401">Unauthorized: Access Denied</response>
-    [HttpGet("list")]
+    [HttpGet("list/own")]
     public async Task<IActionResult> GetOwnAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
     {
         return await WithPermission(
@@ -55,7 +55,7 @@ public class AdvertiseController : AdminControllerBase
     /// </remarks>
     /// <response code="200">AD Details</response>
     /// <response code="401">Unauthorized: Access Denied</response>
-    [HttpGet("list/all")]
+    [HttpGet("list")]
     public async Task<IActionResult> GetAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
     {
         return await WithPermission(
@@ -81,15 +81,15 @@ public class AdvertiseController : AdminControllerBase
     }
 
     /// <summary>
-    /// Get an advertise.
+    /// Get own advertise details.
     /// </summary>
     /// <remarks>
-    /// 🔐 Roles allowed: Organization
+    /// 🔐 Roles allowed: Super Admin, Admin, Organization
     /// </remarks>
     /// <response code="200">AD Details</response>
     /// <response code="401">Unauthorized: Access Denied</response>
-    [HttpGet("get/{id}")]
-    public async Task<IActionResult> GetAdvertise(string id)
+    [HttpGet("get/own/{id}")]
+    public async Task<IActionResult> GetOwnAdvertise(string id)
     {
         return await WithPermission(
             HttpContext,
@@ -100,7 +100,7 @@ public class AdvertiseController : AdminControllerBase
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetAdvertiseAsync(authPayload.UserId, id);
+                    var res = await _service.GetOwnAdvertiseAsync(authPayload.UserId, id);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)
@@ -110,6 +110,36 @@ public class AdvertiseController : AdminControllerBase
             }
         );
 
+    }
+    /// <summary>
+    /// Get any advertise details.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Super Admin, Admin
+    /// </remarks>
+    /// <response code="200">AD Details</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetAdvertise(string id)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "READ",
+            async () =>
+            {
+                try
+                {
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    var res = await _service.GetAdvertiseAsync(id);
+                    return AppHttpResponse.Ok(res, "Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
     }
 
     /// <summary>

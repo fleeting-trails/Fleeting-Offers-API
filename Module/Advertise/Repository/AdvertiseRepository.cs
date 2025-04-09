@@ -29,6 +29,17 @@ public class AdvertiseRepository
 
         return advertiseDto;
     }
+    public async Task<AdvertiseProjection_AllDto?> GetAdvertiseWithAllAsync(string id)
+    {
+        // Not implemented
+        var advertiseDto = await _dbContext.Advertises
+            .AsQueryable()
+            .Where(a => a.Id == id)
+            .ProjectTo<AdvertiseProjection_AllDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync();
+
+        return advertiseDto;
+    }
     public async Task<PaginatedResult<AdvertiseDto>> GetOwnAdvertisesPaginatedAsync(string userId, int page, int pageSize)
     {
         // Not implemented
