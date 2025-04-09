@@ -9,3 +9,8 @@ public record HttpPayloadDto (
     string? Device,
     bool IsValidToken
 );
+
+public record PaginationQueryDto (
+    int? Page,
+    int? PageSize
+);

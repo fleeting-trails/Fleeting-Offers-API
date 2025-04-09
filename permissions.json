@@ -11,13 +11,19 @@
       "CREATE": true
     },
     "ADVERTISE": {
-      "CREATE_BY_ADMIN": true
+      "CREATE_BY_ADMIN": true,
+      "LIST_OWN": true,
+      "LIST_ALL": true,
+      "READ_OWN": true
     }
   },
   "ADMIN": {},
   "ORGANIZATION": {
     "ADVERTISE": {
-      "CREATE": true
+      "CREATE": true,
+      "LIST_OWN": true,
+      "UPDATE_OWN": true,
+      "READ_OWN": true
     },
     "UPLOAD": {
       "CREATE": true

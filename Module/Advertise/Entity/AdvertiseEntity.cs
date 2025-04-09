@@ -45,6 +45,9 @@ public class AdvertiseEntity
     [Required]
     public string CreatedById { get; set; }
 
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
     // Relationships
     public ICollection<AdvertiseLocationEntity> Locations { get; set; } = new List<AdvertiseLocationEntity>();
     public ICollection<AdvertiseRelatedAdvertiseEntity> RelatedAdvertises { get; set; } = new List<AdvertiseRelatedAdvertiseEntity>();

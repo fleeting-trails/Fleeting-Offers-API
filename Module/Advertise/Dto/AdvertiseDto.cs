@@ -1,6 +1,6 @@
 namespace FleetingOffers.Module.Advertise;
 
-public class AdvertiseDto
+public class    AdvertiseDto
 {
     public string Id { get; set; }  // Auto-generated ID
     public string Title { get; set; }
@@ -22,6 +22,9 @@ public class AdvertiseDto
 
     public string? SubCategoryId { get; set; }
     public string CreatedById { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }
 
 

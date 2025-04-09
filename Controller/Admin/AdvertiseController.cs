@@ -15,6 +15,70 @@ public class AdvertiseController : AdminControllerBase
     {
         _service = advertiseService;
     }
+    /// <summary>
+    /// List advertise paginated.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Organization, Admin, SuperAdmin
+    /// </remarks>
+    /// <response code="200">AD Details</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpGet("list")]
+    public async Task<IActionResult> GetOwnAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "LIST_OWN",
+            async () =>
+            {
+                try
+                {
+                    int page = paginationQuery.Page ?? 1;
+                    int pageSize = paginationQuery.PageSize ?? 10;
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    var res = await _service.GetOwnAdvertisesPaginatedAsync(authPayload.UserId, page, pageSize);
+                    return AppHttpResponse.Ok(res, "Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
+    }
+    /// <summary>
+    /// List all advertise paginated.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Admin, Super Admin
+    /// </remarks>
+    /// <response code="200">AD Details</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpGet("list/all")]
+    public async Task<IActionResult> GetAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "LIST_ALL",
+            async () =>
+            {
+                try
+                {
+                    int page = paginationQuery.Page ?? 1;
+                    int pageSize = paginationQuery.PageSize ?? 10;
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    var res = await _service.GetAllAdvertisesPaginatedAsync(page, pageSize);
+                    return AppHttpResponse.Ok(res, "Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
+    }
 
     /// <summary>
     /// Get an advertise.
@@ -24,8 +88,8 @@ public class AdvertiseController : AdminControllerBase
     /// </remarks>
     /// <response code="200">AD Details</response>
     /// <response code="401">Unauthorized: Access Denied</response>
-    [HttpPost("get")]
-    public async Task<IActionResult> GetAdvertise(string advertiseId)
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetAdvertise(string id)
     {
         return await WithPermission(
             HttpContext,
@@ -36,7 +100,7 @@ public class AdvertiseController : AdminControllerBase
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetAdvertiseAsync(authPayload.UserId, advertiseId);
+                    var res = await _service.GetAdvertiseAsync(authPayload.UserId, id);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)
@@ -100,6 +164,39 @@ public class AdvertiseController : AdminControllerBase
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
                     await _service.CreateAdvertiseByAdminAsync(authPayload.UserId, dto);
+                    return AppHttpResponse.Ok("Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
+
+    }
+
+
+    /// <summary>
+    /// Update an advertise entry.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Admin, SuperAdmin, Organization
+    /// </remarks>
+    /// <response code="200">Ad created</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpPut("update")]
+    public async Task<IActionResult> UpdateAdvertiseDetails([FromBody] UpdateAdvertiseDetailsDto dto)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "UPDATE_OWN",
+            async () =>
+            {
+                try
+                {
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    await _service.UpdateAdvertiseDetailsAsync(authPayload.UserId, dto);
                     return AppHttpResponse.Ok("Ok");
                 }
                 catch (Exception ex)

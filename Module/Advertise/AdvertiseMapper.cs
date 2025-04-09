@@ -10,5 +10,10 @@ public class AdvertiseMapper : Profile {
 
         // Projections
         CreateMap<AdvertiseProjection_AllDto, AdvertiseEntity>().ReverseMap();
+
+        // HTTP Dtos
+        CreateMap<CreateAdvertiseDto, AdvertiseEntity>();
+        CreateMap<UpdateAdvertiseDetailsDto, AdvertiseDto>();
+
     }
 }

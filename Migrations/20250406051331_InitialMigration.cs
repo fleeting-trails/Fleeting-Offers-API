@@ -440,7 +440,9 @@ namespace FleetingOffers.Migrations
                     CategoryId = table.Column<string>(type: "TEXT", nullable: true),
                     SubCategoryId = table.Column<string>(type: "TEXT", nullable: true),
                     DealTypeId = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedById = table.Column<string>(type: "TEXT", nullable: false)
+                    CreatedById = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

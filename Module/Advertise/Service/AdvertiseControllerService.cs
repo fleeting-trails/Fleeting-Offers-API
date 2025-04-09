@@ -1,5 +1,7 @@
 using AutoMapper;
 using FleetingOffers.Attributes;
+using FleetingOffers.Http;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace FleetingOffers.Module.Advertise;
 
@@ -27,6 +29,22 @@ public class AdvertiseControllerService {
         }
         return advertise;
     }
+    public async Task<PaginatedResult<AdvertiseDto>> GetOwnAdvertisesPaginatedAsync(string userId, int page, int pageSize) {
+        // Implementation
+        var result = await _repository.GetOwnAdvertisesPaginatedAsync(userId, page, pageSize);
+        if (result == null) {
+            throw new Exception("FAILED: Failed to fetch list of advertises");
+        }
+        return result;
+    }
+    public async Task<PaginatedResult<AdvertiseDto>> GetAllAdvertisesPaginatedAsync(int page, int pageSize) {
+        // Implementation
+        var result = await _repository.GetAdvertisesPaginatedAsync(page, pageSize);
+        if (result == null) {
+            throw new Exception("FAILED: Failed to fetch list of advertises");
+        }
+        return result;
+    }
     public async Task CreateAdvertiseAsync(string createdBy, CreateAdvertiseDto dto) {
         // Implementation
         _validator.ValidateCreateAdvertise(dto);
@@ -49,5 +67,12 @@ public class AdvertiseControllerService {
             });
         }
         await _repository.CreateAdvertiseAsync(createdBy, advertiseDto, advertiseOwners);
+    }
+
+    public async Task UpdateAdvertiseDetailsAsync(string userId, UpdateAdvertiseDetailsDto dto) {
+        // Implementation
+        _validator.ValidateUpdateAdvertise(dto);
+        var advertiseDto = _mapper.Map<AdvertiseDto>(dto);
+        await _repository.UpdateAdvertiseAsync(userId, advertiseDto);
     }
 }
