@@ -2,21 +2,31 @@ using StackExchange.Redis;
 
 namespace FleetingOffers.Settings;
 
-public class CacheSettings {
+public class CacheSettings
+{
     public static string? Connection;
     public static readonly TimeSpan DefaultExpiry = TimeSpan.FromHours(1);
-    public static readonly string CacheStorage = "Redis";
-    public static readonly Boolean CacheEnabled = true;
-    public static readonly string CacheKey = "FleetingOffers:";
-    
-    public CacheSettings(WebApplicationBuilder builder) {
-        Connection = builder.Configuration.GetConnectionString("Redis");
-        builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Connection!)); // Replace with your Redis server details
+    public static string CacheStorage;
+    public static bool CacheEnabled;
+    public static string CacheKey;
 
-        builder.Services.AddStackExchangeRedisCache(options =>
+    public CacheSettings(WebApplicationBuilder builder)
+    {
+        Connection = builder.Configuration.GetConnectionString("Redis");
+        CacheStorage = builder.Configuration["CacheSettings.CacheStorage"];
+        CacheEnabled = builder.Configuration.GetValue("CacheSettings:CacheEnabled", false);
+        CacheKey = builder.Configuration["CacheSettings.CacheKey"];
+
+        if (CacheEnabled)
         {
-            options.Configuration = Connection;
-            options.InstanceName = CacheKey;
-        });
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Connection!)); // Replace with your Redis server details
+
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Connection;
+                options.InstanceName = CacheKey;
+            });
+        }
     }
 }

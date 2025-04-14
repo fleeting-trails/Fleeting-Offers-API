@@ -15,14 +15,14 @@ public class AdvertiseController : AdminControllerBase
     {
         _service = advertiseService;
     }
-    /// <summary>
-    /// List own advertises paginated.
-    /// </summary>
-    /// <remarks>
-    /// 🔐 Roles allowed: Organization, Admin, SuperAdmin
-    /// </remarks>
-    /// <response code="200">AD Details</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
+    // /// <summary>
+    // /// List own advertises paginated.
+    // /// </summary>
+    // /// <remarks>
+    // /// 🔐 Roles allowed: Organization, Admin, SuperAdmin
+    // /// </remarks>
+    // /// <response code="200">AD Details</response>
+    // /// <response code="401">Unauthorized: Access Denied</response>
     [HttpGet("list/own")]
     public async Task<IActionResult> GetOwnAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
     {
