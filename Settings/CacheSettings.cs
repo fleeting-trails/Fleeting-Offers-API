@@ -20,7 +20,7 @@ public class CacheSettings
         if (CacheEnabled)
         {
 
-            builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Connection!)); // Replace with your Redis server details
+            builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(Connection!));
 
             builder.Services.AddStackExchangeRedisCache(options =>
             {
