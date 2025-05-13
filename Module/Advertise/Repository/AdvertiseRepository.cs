@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using FleetingOffers.Attributes;
 using FleetingOffers.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static FleetingOffers.AppDbContext;
 
 namespace FleetingOffers.Module.Advertise;
