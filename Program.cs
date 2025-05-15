@@ -9,6 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+
+// builder.WebHost.ConfigureKestrel(serverOptions =>
+// {
+//     serverOptions.ListenAnyIP(5000); // 💡 This is the fix
+// });
+
+
 // Initialize database
 #region Initializations
 new HttpSettings(builder);
@@ -47,7 +54,18 @@ foreach (var endpoint in endpointDataSource.Endpoints)
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseOpenApi();
+    app.UseSwaggerUi();
+}
+else
+{
+    app.UseExceptionHandler("/error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 {
     app.MapOpenApi();
     app.UseSwagger();
@@ -57,11 +75,14 @@ if (app.Environment.IsDevelopment())
 
 }
 
-app.UseHttpsRedirection();
+// if (!app.Environment.IsDevelopment())
+// {
+//     app.UseHttpsRedirection();
+// }
 
 
-app.MapGet("/test", () =>
-{
+
+app.MapGet("/", () => {
     return "Connection OK!";
 })
 .WithName("TestConnection");

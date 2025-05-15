@@ -8,6 +8,7 @@ using FleetingOffers.Module.Subscriber;
 using FleetingOffers.Module.User;
 using Microsoft.EntityFrameworkCore;
 using FleetingOffers.Util.Helper;
+using System.Diagnostics;
 
 namespace FleetingOffers;
 
@@ -61,13 +62,22 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
 
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder
-        .UseSeeding((context, _) =>
-        {
-            AdvertiseDealTypesSeeder.Seed(context);
-            UserSeeder.Seed(context);
-        });
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // => optionsBuilder
+    //     .UseSeeding((context, _) =>
+    //     {
+    //         AdvertiseDealTypesSeeder.Seed(context);
+    //         UserSeeder.Seed(context);
+    //     });
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        var users = UserSeeder.GetSeedData();
+        modelBuilder.Entity<UserEntity>().HasData(users);
+
+        // Other HasData seeding...
+    }
+
 
 
     public record SaveChangesWithUploadsAsyncPropsDto(
@@ -102,7 +112,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 }
                 if (entry.State == EntityState.Added)
                 {
-                    await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = @p0", new object[] { fileId });
+                    Console.WriteLine($"Updating usage for fileId: {fileId}");
+                    Debug.WriteLine($"Updating usage for fileId: {fileId}");
+
+                    // await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = @p0", new object[] { fileId });
+                    await this.Database.ExecuteSqlInterpolatedAsync($"UPDATE \"Uploads\" SET \"NumberOfUsage\" = \"NumberOfUsage\" + 1 WHERE \"Id\" = {fileId}");
+
                 }
                 else if (entry.State == EntityState.Deleted)
                 {
@@ -110,18 +125,21 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    var oldFileId = entry.OriginalValues["FileId"] as string;
+                    Debug.WriteLine($"FileRef: {fileRef.Key}");
+                    var oldFileId = entry.OriginalValues[fileRef.Key]?.ToString();
                     var newFileId = fileId;
 
                     if (oldFileId != newFileId)
                     {
                         if (oldFileId != null)
                         {
+                            Debug.WriteLine($"Updating usage for fileId: {oldFileId}");
                             await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} - 1 WHERE Id = @p0", new object[] { oldFileId });
                         }
 
                         if (newFileId != null)
                         {
+                            Debug.WriteLine($"Updating usage for fileId: {newFileId}");
                             await this.Database.ExecuteSqlRawAsync($"UPDATE {nameof(Uploads)} SET {nameof(UploadEntity.NumberOfUsage)} = {nameof(UploadEntity.NumberOfUsage)} + 1 WHERE Id = @p0", new object[] { newFileId });
                         }
                     }

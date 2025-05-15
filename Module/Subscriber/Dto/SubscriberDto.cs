@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using FleetingOffers.Module.Auth;
 
 namespace FleetingOffers.Module.Subscriber;
@@ -13,6 +14,7 @@ public class SubscriberDto
 
     public string? LastName { get; set; }
 
+    [Column(TypeName = "bytea")]
     public byte[]? ProfilePicture { get; set; }  // Optional profile picture as byte array
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

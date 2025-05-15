@@ -30,7 +30,7 @@ public class AdvertiseRepository
     }
     public async Task<AdvertiseProjection_AllDto?> GetAdvertiseWithAllAsync(string id)
     {
-        // Not implemented
+        // Not imp.emented
         var advertiseDto = await _dbContext.Advertises
             .AsQueryable()
             .Where(a => a.Id == id)

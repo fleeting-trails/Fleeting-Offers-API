@@ -12,13 +12,15 @@ public class CacheSettings
 
     public CacheSettings(WebApplicationBuilder builder)
     {
-        Connection = builder.Configuration.GetConnectionString("Redis");
+        // Connection = builder.Configuration.GetConnectionString("Redis");
+        Connection = builder.Configuration["Redis:ConnectionString"];
+        Console.WriteLine("Redis Connection String: " + Connection);
         CacheStorage = builder.Configuration["CacheSettings.CacheStorage"];
         CacheEnabled = builder.Configuration.GetValue("CacheSettings:CacheEnabled", false);
         CacheKey = builder.Configuration["CacheSettings.CacheKey"];
 
         if (CacheEnabled)
-        {
+        { 
 
             builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(Connection!));
 

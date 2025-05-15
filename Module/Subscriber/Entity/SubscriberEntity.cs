@@ -25,6 +25,7 @@ public class SubscriberEntity
     [MaxLength(50)]
     public string? LastName { get; set; }
 
+    [Column(TypeName = "bytea")]
     public byte[]? ProfilePicture { get; set; }  // Optional profile picture as byte array
 
     [Required]

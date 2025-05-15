@@ -25,7 +25,7 @@ public class HttpAuthenticateDev : Attribute, IAuthorizationFilter
 
         // Disable developer routes in production
         // Please place it only after the token validation.
-        if (!env.IsDevelopment())
+        if (!env.IsDevelopment() && !env.IsStaging())
         {
             context.Result = new ContentResult
             {

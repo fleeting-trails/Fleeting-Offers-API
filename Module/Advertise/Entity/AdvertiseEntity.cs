@@ -27,9 +27,11 @@ public class AdvertiseEntity
 
     // Foreign Keys for Images
     public string? CoverImageId { get; set; }
+    [ForeignKey("CoverImageId")]
     public UploadEntity? CoverImage { get; set; }
 
     public string? ThumbnailImageId { get; set; }
+    [ForeignKey("ThumbnailImageId")]
     public UploadEntity? ThumbnailImage { get; set; }
 
     // Foreign Keys for Category & Industry

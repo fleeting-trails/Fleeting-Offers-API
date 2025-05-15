@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FleetingOffers.Migrations
 {
     /// <inheritdoc />
@@ -15,8 +17,8 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseDealTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,11 +29,11 @@ namespace FleetingOffers.Migrations
                 name: "AuthOtps",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    OtpValue = table.Column<string>(type: "TEXT", maxLength: 6, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ExpireAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    OtpValue = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ExpireAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,17 +44,17 @@ namespace FleetingOffers.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Lat = table.Column<double>(type: "REAL", nullable: false),
-                    Long = table.Column<double>(type: "REAL", nullable: false),
-                    AddressText = table.Column<string>(type: "TEXT", nullable: true),
-                    District = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Upazila = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Union = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Village = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Area = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    PostalCode = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Lat = table.Column<double>(type: "double precision", nullable: false),
+                    Long = table.Column<double>(type: "double precision", nullable: false),
+                    AddressText = table.Column<string>(type: "text", nullable: true),
+                    District = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Upazila = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Union = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Village = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Area = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    PostalCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,11 +65,11 @@ namespace FleetingOffers.Migrations
                 name: "Passwords",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    HashValue = table.Column<string>(type: "TEXT", nullable: false),
-                    Salt = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    HashValue = table.Column<string>(type: "text", nullable: false),
+                    Salt = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,10 +80,10 @@ namespace FleetingOffers.Migrations
                 name: "SubscriberAuthProviders",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Provider = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProviderId = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Provider = table.Column<int>(type: "integer", nullable: false),
+                    ProviderId = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,15 +94,15 @@ namespace FleetingOffers.Migrations
                 name: "Uploads",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    OriginalName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    URL = table.Column<string>(type: "TEXT", nullable: false),
-                    Storage = table.Column<int>(type: "INTEGER", nullable: false),
-                    MimeType = table.Column<string>(type: "TEXT", nullable: false),
-                    NumberOfUsage = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    OriginalName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    URL = table.Column<string>(type: "text", nullable: false),
+                    Storage = table.Column<int>(type: "integer", nullable: false),
+                    MimeType = table.Column<string>(type: "text", nullable: false),
+                    NumberOfUsage = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -111,8 +113,8 @@ namespace FleetingOffers.Migrations
                 name: "UserSubRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    RoleName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    RoleName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,16 +125,16 @@ namespace FleetingOffers.Migrations
                 name: "Subscribers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    MiddleName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    ProfilePicture = table.Column<byte[]>(type: "BLOB", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    PasswordId = table.Column<string>(type: "TEXT", nullable: true),
-                    AuthProviderUsed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ProvideInfoId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    MiddleName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    ProfilePicture = table.Column<byte[]>(type: "bytea", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    PasswordId = table.Column<string>(type: "text", nullable: true),
+                    AuthProviderUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    ProvideInfoId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -153,11 +155,11 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseCategories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Slug = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Slug = table.Column<string>(type: "text", nullable: false),
+                    ImageId = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,11 +175,11 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseIndustries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Slug = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Slug = table.Column<string>(type: "text", nullable: false),
+                    ImageId = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,11 +195,11 @@ namespace FleetingOffers.Migrations
                 name: "Campaigns",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    ThumbnailImageId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    CoverImageId = table.Column<string>(type: "text", nullable: true),
+                    ThumbnailImageId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,15 +220,15 @@ namespace FleetingOffers.Migrations
                 name: "OrganizationProfiles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    Subtitle = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    ProfileImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    Website = table.Column<string>(type: "TEXT", nullable: true),
-                    LocationId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: true),
+                    Subtitle = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    CoverImageId = table.Column<string>(type: "text", nullable: true),
+                    ProfileImageId = table.Column<string>(type: "text", nullable: true),
+                    Website = table.Column<string>(type: "text", nullable: true),
+                    LocationId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -252,9 +254,9 @@ namespace FleetingOffers.Migrations
                 name: "UserPermissions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    SubRoleId = table.Column<string>(type: "TEXT", nullable: false),
-                    PermissionString = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    SubRoleId = table.Column<string>(type: "text", nullable: false),
+                    PermissionString = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,18 +273,18 @@ namespace FleetingOffers.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Username = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Role = table.Column<int>(type: "INTEGER", nullable: false),
-                    RestrictedUserSubRoleId = table.Column<int>(type: "INTEGER", nullable: true),
-                    LastLoggedIn = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsPasswordSet = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserSubRoleId = table.Column<string>(type: "TEXT", nullable: true),
-                    OtpId = table.Column<string>(type: "TEXT", nullable: true),
-                    PasswordId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Username = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Role = table.Column<int>(type: "integer", nullable: false),
+                    RestrictedUserSubRoleId = table.Column<int>(type: "integer", nullable: true),
+                    LastLoggedIn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsPasswordSet = table.Column<bool>(type: "boolean", nullable: false),
+                    UserSubRoleId = table.Column<string>(type: "text", nullable: true),
+                    OtpId = table.Column<string>(type: "text", nullable: true),
+                    PasswordId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -308,16 +310,16 @@ namespace FleetingOffers.Migrations
                 name: "SubscriberInitialPreferenceCategories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
-                    CategoryId = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    SubscriberId = table.Column<string>(type: "text", nullable: false),
+                    CategoryId = table.Column<string>(type: "text", nullable: false),
+                    SubscriberEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubscriberInitialPreferenceCategories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubscriberInitialPreferenceCategories_Subscribers_SubscriberEntityId",
+                        name: "FK_SubscriberInitialPreferenceCategories_Subscribers_Subscribe~",
                         column: x => x.SubscriberEntityId,
                         principalTable: "Subscribers",
                         principalColumn: "Id");
@@ -327,16 +329,16 @@ namespace FleetingOffers.Migrations
                 name: "SubscriberInitialPreferenceIndustries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
-                    IndustryId = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    SubscriberId = table.Column<string>(type: "text", nullable: false),
+                    IndustryId = table.Column<string>(type: "text", nullable: false),
+                    SubscriberEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubscriberInitialPreferenceIndustries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubscriberInitialPreferenceIndustries_Subscribers_SubscriberEntityId",
+                        name: "FK_SubscriberInitialPreferenceIndustries_Subscribers_Subscribe~",
                         column: x => x.SubscriberEntityId,
                         principalTable: "Subscribers",
                         principalColumn: "Id");
@@ -346,16 +348,16 @@ namespace FleetingOffers.Migrations
                 name: "OrganizationProfileEmails",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileId = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileId = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationProfileEmails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrganizationProfileEmails_OrganizationProfiles_OrganizationProfileEntityId",
+                        name: "FK_OrganizationProfileEmails_OrganizationProfiles_Organization~",
                         column: x => x.OrganizationProfileEntityId,
                         principalTable: "OrganizationProfiles",
                         principalColumn: "Id");
@@ -365,16 +367,16 @@ namespace FleetingOffers.Migrations
                 name: "OrganizationProfileExtraImages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileId = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    OrganizationProfileEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileId = table.Column<string>(type: "text", nullable: false),
+                    ImageId = table.Column<string>(type: "text", nullable: true),
+                    OrganizationProfileEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationProfileExtraImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrganizationProfileExtraImages_OrganizationProfiles_OrganizationProfileEntityId",
+                        name: "FK_OrganizationProfileExtraImages_OrganizationProfiles_Organiz~",
                         column: x => x.OrganizationProfileEntityId,
                         principalTable: "OrganizationProfiles",
                         principalColumn: "Id");
@@ -389,17 +391,17 @@ namespace FleetingOffers.Migrations
                 name: "OrganizationProfilePhones",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    CountryCode = table.Column<string>(type: "TEXT", nullable: false),
-                    Number = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileId = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CountryCode = table.Column<string>(type: "text", nullable: false),
+                    Number = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileId = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationProfilePhones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrganizationProfilePhones_OrganizationProfiles_OrganizationProfileEntityId",
+                        name: "FK_OrganizationProfilePhones_OrganizationProfiles_Organization~",
                         column: x => x.OrganizationProfileEntityId,
                         principalTable: "OrganizationProfiles",
                         principalColumn: "Id");
@@ -409,17 +411,17 @@ namespace FleetingOffers.Migrations
                 name: "OrganizationSocialMedias",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<int>(type: "INTEGER", nullable: false),
-                    Link = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileId = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationProfileEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Link = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileId = table.Column<string>(type: "text", nullable: false),
+                    OrganizationProfileEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationSocialMedias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrganizationSocialMedias_OrganizationProfiles_OrganizationProfileEntityId",
+                        name: "FK_OrganizationSocialMedias_OrganizationProfiles_OrganizationP~",
                         column: x => x.OrganizationProfileEntityId,
                         principalTable: "OrganizationProfiles",
                         principalColumn: "Id");
@@ -429,20 +431,20 @@ namespace FleetingOffers.Migrations
                 name: "Advertises",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Subtitle = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ExpirationDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CoverImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    ThumbnailImageId = table.Column<string>(type: "TEXT", nullable: true),
-                    CategoryId = table.Column<string>(type: "TEXT", nullable: true),
-                    SubCategoryId = table.Column<string>(type: "TEXT", nullable: true),
-                    DealTypeId = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedById = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Subtitle = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ExpirationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CoverImageId = table.Column<string>(type: "text", nullable: true),
+                    ThumbnailImageId = table.Column<string>(type: "text", nullable: true),
+                    CategoryId = table.Column<string>(type: "text", nullable: true),
+                    SubCategoryId = table.Column<string>(type: "text", nullable: true),
+                    DealTypeId = table.Column<string>(type: "text", nullable: true),
+                    CreatedById = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -484,13 +486,13 @@ namespace FleetingOffers.Migrations
                 name: "AuthTokens",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    Token = table.Column<string>(type: "TEXT", nullable: false),
-                    DeviceSignature = table.Column<string>(type: "TEXT", nullable: true),
-                    Expiration = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UserEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    DeviceSignature = table.Column<string>(type: "text", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -506,10 +508,10 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseAdditionalImageEntity",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageId = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    ImageId = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -531,12 +533,12 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseAnalytics",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    Views = table.Column<int>(type: "INTEGER", nullable: false),
-                    Clicks = table.Column<int>(type: "INTEGER", nullable: false),
-                    Conversions = table.Column<int>(type: "INTEGER", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    Views = table.Column<int>(type: "integer", nullable: false),
+                    Clicks = table.Column<int>(type: "integer", nullable: false),
+                    Conversions = table.Column<int>(type: "integer", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -553,10 +555,10 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseLocations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    LocationId = table.Column<string>(type: "TEXT", nullable: true),
-                    AdvertiseEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    LocationId = table.Column<string>(type: "text", nullable: true),
+                    AdvertiseEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -577,10 +579,10 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseOwners",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    OwnershipType = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    OwnershipType = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -603,9 +605,9 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseRelatedAdvertises",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    RelatedAdvertiseId = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    RelatedAdvertiseId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -622,10 +624,10 @@ namespace FleetingOffers.Migrations
                 name: "AdvertiseTags",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Tag = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Tag = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -641,10 +643,10 @@ namespace FleetingOffers.Migrations
                 name: "CampaignAdvertises",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    CampaignId = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    CampaignEntityId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CampaignId = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    CampaignEntityId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -666,10 +668,10 @@ namespace FleetingOffers.Migrations
                 name: "SubscriberFavouriteAdvertises",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriberId = table.Column<string>(type: "TEXT", nullable: false),
-                    AdvertiseId = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    SubscriberId = table.Column<string>(type: "text", nullable: false),
+                    AdvertiseId = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -686,6 +688,16 @@ namespace FleetingOffers.Migrations
                         principalTable: "Subscribers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsPasswordSet", "LastLoggedIn", "OtpId", "PasswordId", "RestrictedUserSubRoleId", "Role", "UserSubRoleId", "Username" },
+                values: new object[,]
+                {
+                    { "127d6016-98d4-4310-a52c-5e0d69da8294", new DateTime(2025, 5, 15, 4, 53, 9, 931, DateTimeKind.Utc).AddTicks(9570), "samaheerzameel@gmail.com", "Samaheer Zameel", false, null, null, null, null, 1, null, "samaheer_zameel" },
+                    { "51e376aa-7cf9-40e3-86a6-ee0ad294bd5e", new DateTime(2025, 5, 15, 4, 53, 9, 931, DateTimeKind.Utc).AddTicks(9490), "abtahitajwar@gmail.com", "Abtahi Tajwar", false, null, null, null, null, 0, null, "abtahi_tajwar" },
+                    { "98bae885-e2a6-4b1c-a776-e60460489f9a", new DateTime(2025, 5, 15, 4, 53, 9, 931, DateTimeKind.Utc).AddTicks(9570), "fleetingtrails@gmail.com", "Fleeting Trails", false, null, null, null, null, 2, null, "fleeting_trails" }
                 });
 
             migrationBuilder.CreateIndex(
