@@ -8,9 +8,8 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-COPY .env .env
 # Pass configuration dynamically (default to Release)
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -o out
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
