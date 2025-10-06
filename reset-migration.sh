@@ -14,7 +14,7 @@ echo "Removing last migration..."
 dotnet ef migrations remove
 
 echo "Adding new migration..."
-dotnet ef migrations add InitialMigration -o Migrations
+    dotnet ef migrations add InitialMigration -o Migrations
 
 echo "Updating the database..."
 dotnet ef database update
