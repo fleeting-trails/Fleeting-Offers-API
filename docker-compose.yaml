@@ -27,6 +27,8 @@ services:
     container_name: postgres
     ports:
       - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
 
   adminer:
     image: adminer
@@ -41,4 +43,3 @@ services:
     restart: always
     ports:
       - 6380:6379
-

@@ -2,13 +2,16 @@ using System.Runtime.Serialization;
 
 namespace FleetingOffers.Common.Enum;
 
-public enum APP_MODULE {
+public enum APP_MODULE
+{
     [EnumMember(Value = "AUTH")]
     AUTH,
     [EnumMember(Value = "USER")]
     USER,
     [EnumMember(Value = "ADVERTISE")]
     ADVERTISE,
+    [EnumMember(Value = "ADVERTISE_CATEGORY")]
+    ADVERTISE_CATEGORY,
     [EnumMember(Value = "CAMPAIGN")]
     CAMPAIGN,
     [EnumMember(Value = "SUBSCRIBER")]
@@ -17,5 +20,5 @@ public enum APP_MODULE {
     UPLOAD,
     [EnumMember(Value = "LOCATION")]
     LOCATION,
-    
+
 }

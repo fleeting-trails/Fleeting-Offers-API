@@ -16,6 +16,7 @@ class PermissionService
         {
             string basePath = AppContext.BaseDirectory;
             string filePath = Path.Combine(basePath, "permissions.json");
+            Console.WriteLine($"Permission file path: {filePath}");
 
             string json = File.ReadAllText(filePath);
             var permissions = JsonSerializer.Deserialize<PermissionDto>(json);

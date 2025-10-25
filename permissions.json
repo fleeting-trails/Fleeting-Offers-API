@@ -16,6 +16,13 @@
       "LIST_ALL": true,
       "READ_OWN": true,
       "READ": true
+    },
+    "ADVERTISE_CATEGORY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
     }
   },
   "ADMIN": {},
@@ -28,6 +35,10 @@
     },
     "UPLOAD": {
       "CREATE": true
+    },
+    "ADVERTISE_CATEGORY": {
+      "LIST": true,
+      "DETAILS": true
     }
   }
 }
