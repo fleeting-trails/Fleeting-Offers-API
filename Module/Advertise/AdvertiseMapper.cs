@@ -18,6 +18,16 @@ public class AdvertiseMapper : Profile {
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore()); // Don't overwrite CreatedAt on update
 
+        // Industry mappings
+        CreateMap<AdvertiseIndustryEntity, AdvertiseIndustryDto>().ReverseMap();
+        CreateMap<CreateAdvertiseIndustryDto, AdvertiseIndustryDto>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+        CreateMap<UpdateAdvertiseIndustryDto, AdvertiseIndustryDto>()
+            .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore()); // Don't overwrite CreatedAt on update
+
         // Projections
         CreateMap<AdvertiseProjection_AllDto, AdvertiseEntity>().ReverseMap();
 

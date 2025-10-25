@@ -41,4 +41,26 @@ public class AdvertiseValidator {
         
         // Note: ImageId is optional, so we don't validate it as required
     }
+
+    // Advertise Industry Validations
+
+    public void ValidateCreateAdvertiseIndustry(CreateAdvertiseIndustryDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+        {
+            throw new Exception("INDUSTRY_VALIDATION: Industry name cannot be empty");
+        }
+        
+        // Note: ImageId is optional, so we don't validate it as required
+    }
+
+    public void ValidateUpdateAdvertiseIndustry(UpdateAdvertiseIndustryDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+        {
+            throw new Exception("INDUSTRY_VALIDATION: Industry name cannot be empty");
+        }
+        
+        // Note: ImageId is optional, so we don't validate it as required
+    }
 }

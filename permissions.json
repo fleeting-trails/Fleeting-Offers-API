@@ -23,6 +23,13 @@
       "UPDATE": true,
       "DETAILS": true,
       "DELETE": true
+    },
+    "ADVERTISE_INDUSTRY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
     }
   },
   "ADMIN": {},
@@ -37,6 +44,10 @@
       "CREATE": true
     },
     "ADVERTISE_CATEGORY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "ADVERTISE_INDUSTRY": {
       "LIST": true,
       "DETAILS": true
     }
