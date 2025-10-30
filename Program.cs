@@ -28,6 +28,7 @@ new JWTSettings(builder);
 new AuthSettings(builder);
 new UploadSettings(builder);
 new DocumentationSettings(builder);
+new LoggerSettings(builder);
 #endregion
 
 var app = builder.Build();

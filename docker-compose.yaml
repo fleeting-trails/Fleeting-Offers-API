@@ -1,4 +1,16 @@
 services:
+  # writer:
+  #   image: alpine
+  #   container_name: writer
+  #   command: sh -c "mkdir -p /app/Logs && while true; do echo $(date) >> /app/Logs/test.log; sleep 2; done"
+  #   volumes:
+  #     - app-logs:/app/Logs
+  # reader:
+  #   image: alpine
+  #   container_name: reader
+  #   command: sh -c "while true; do echo '--- content of /mnt/logs ---'; ls -lah /mnt/logs; cat /mnt/logs/test.log || true; sleep 3; done"
+  #   volumes:
+  #     - app-logs:/mnt/logs:ro
   app:
     container_name: fleetingoffers_api
     build:
@@ -16,6 +28,8 @@ services:
       - .env
     ports:
       - 5001:8080
+    volumes:
+      - app-logs:/app/Logs
   postgres:
     image: postgres:17.5
     restart: always
@@ -41,4 +55,25 @@ services:
     restart: always
     ports:
       - 6380:6379
+  splunk-uf:
+    image: splunk/universalforwarder:latest
+    platform: linux/amd64
+    container_name: splunk-uf
+    environment:
+      - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com   # <— NEW
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=${Splunk_Password}
+      - SPLUNK_CMD="add forward-server ${Splunk_Host}:9997 -auth ${Splunk_Username}:${Splunk_Password}"
+      - SPLUNK_ADD="monitor /mnt/logs -index ${Splunk_Index} -sourcetype app:fleetingoffers"
+    volumes:
+      - uf-etc:/opt/splunkforwarder/etc
+      - uf-var:/opt/splunkforwarder/var
+      - app-logs:/mnt/logs:ro
+    restart: unless-stopped
+
+volumes:
+  uf-etc:
+  uf-var:
+  app-logs:
+
 
