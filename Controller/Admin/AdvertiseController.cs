@@ -237,4 +237,68 @@ public class AdvertiseController : AdminControllerBase
         );
 
     }
+
+    /// <summary>
+    /// Delete an advertise entry.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Admin, SuperAdmin, Organization
+    /// </remarks>
+    /// <response code="200">Ad deleted</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteAdvertise(string id)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "DELETE_OWN",
+            async () =>
+            {
+                try
+                {
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    await _service.DeleteAdvertiseAsync(authPayload.UserId, id);
+                    return AppHttpResponse.Ok("Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
+
+    }
+
+    /// <summary>
+    /// Delete an advertise entry by admin.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Admin, SuperAdmin, Organization
+    /// </remarks>
+    /// <response code="200">Ad deleted</response>
+    /// <response code="401">Unauthorized: Access Denied</response>
+    [HttpDelete("delete-by-admin/{id}")]
+    public async Task<IActionResult> DeleteAdvertiseByAdmin(string id)
+    {
+        return await WithPermission(
+            HttpContext,
+            APP_MODULE.ADVERTISE,
+            "DELETE",
+            async () =>
+            {
+                try
+                {
+                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    await _service.DeleteAdvertiseByAdminAsync(id);
+                    return AppHttpResponse.Ok("Ok");
+                }
+                catch (Exception ex)
+                {
+                    return AppHttpResponse.BadRequest(ex.Message);
+                }
+            }
+        );
+
+    }
 }

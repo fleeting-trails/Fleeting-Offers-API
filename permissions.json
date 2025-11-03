@@ -15,7 +15,8 @@
       "LIST_OWN": true,
       "LIST_ALL": true,
       "READ_OWN": true,
-      "READ": true
+      "READ": true,
+      "DELETE": true
     },
     "ADVERTISE_CATEGORY": {
       "CREATE": true,
@@ -38,7 +39,8 @@
       "CREATE": true,
       "LIST_OWN": true,
       "UPDATE_OWN": true,
-      "READ_OWN": true
+      "READ_OWN": true,
+      "DELETE_OWN": true
     },
     "UPLOAD": {
       "CREATE": true

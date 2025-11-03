@@ -77,10 +77,21 @@ public class AdvertiseControllerService {
         await _repository.CreateAdvertiseAsync(createdBy, advertiseDto, advertiseOwners);
     }
 
-    public async Task UpdateAdvertiseDetailsAsync(string userId, UpdateAdvertiseDetailsDto dto) {
+    public async Task UpdateAdvertiseDetailsAsync(string userId, UpdateAdvertiseDetailsDto dto)
+    {
         // Implementation
         _validator.ValidateUpdateAdvertise(dto);
         var advertiseDto = _mapper.Map<AdvertiseDto>(dto);
         await _repository.UpdateAdvertiseAsync(userId, advertiseDto);
+    }
+
+    public async Task DeleteAdvertiseAsync(string userId, string id)
+    {
+        await _repository.DeleteAdvertiseAsync(userId, id);
+    }
+    
+    public async Task DeleteAdvertiseByAdminAsync(string id)
+    {
+        await _repository.DeleteAdvertiseByAdminAsync(id);
     }
 }
