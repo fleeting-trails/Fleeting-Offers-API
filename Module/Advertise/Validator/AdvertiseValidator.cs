@@ -28,8 +28,6 @@ public class AdvertiseValidator {
         {
             throw new Exception("CATEGORY_VALIDATION: Category name cannot be empty");
         }
-        
-        // Note: ImageId is optional, so we don't validate it as required
     }
 
     public void ValidateUpdateAdvertiseCategory(UpdateAdvertiseCategoryDto dto)
@@ -38,8 +36,6 @@ public class AdvertiseValidator {
         {
             throw new Exception("CATEGORY_VALIDATION: Category name cannot be empty");
         }
-        
-        // Note: ImageId is optional, so we don't validate it as required
     }
 
     // Advertise Industry Validations
@@ -50,8 +46,6 @@ public class AdvertiseValidator {
         {
             throw new Exception("INDUSTRY_VALIDATION: Industry name cannot be empty");
         }
-        
-        // Note: ImageId is optional, so we don't validate it as required
     }
 
     public void ValidateUpdateAdvertiseIndustry(UpdateAdvertiseIndustryDto dto)
@@ -60,7 +54,5 @@ public class AdvertiseValidator {
         {
             throw new Exception("INDUSTRY_VALIDATION: Industry name cannot be empty");
         }
-        
-        // Note: ImageId is optional, so we don't validate it as required
     }
 }
