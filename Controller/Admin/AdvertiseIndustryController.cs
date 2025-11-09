@@ -68,7 +68,7 @@ public class AdvertiseIndustryController : AdminControllerBase
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetIndustryDetailsAsync(id);
+                    var res = await _service.GetIndustryByIdAsync(id);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)

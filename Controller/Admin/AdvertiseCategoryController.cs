@@ -68,7 +68,7 @@ public class AdvertiseCategoryController : AdminControllerBase
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetCategoryDetailsAsync(id);
+                    var res = await _service.GetCategoryByIdAsync(id);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)

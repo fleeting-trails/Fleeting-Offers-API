@@ -19,7 +19,7 @@ public class AdvertiseCategoryRepository
     }
 
     // Get Category Details
-    public async Task<AdvertiseCategoryDto?> GetCategoryDetailsAsync(string id)
+    public async Task<AdvertiseCategoryDto?> GetCategoryByIdAsync(string id)
     {
         var categoryDetailsDto = await _dbContext.AdvertiseCategories
             .AsQueryable()

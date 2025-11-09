@@ -25,10 +25,10 @@ public class AdvertiseIndustryService
     }
 
     // Get Industry Details
-    public async Task<AdvertiseIndustryDto> GetIndustryDetailsAsync(string id)
+    public async Task<AdvertiseIndustryDto> GetIndustryByIdAsync(string id)
     {
         // Implementation
-        var industryDetails = await _repository.GetIndustryDetailsAsync(id);
+        var industryDetails = await _repository.GetIndustryByIdAsync(id);
         if (industryDetails == null)
         {
             throw new Exception("INDUSTRY_404: No Industry found with this ID");

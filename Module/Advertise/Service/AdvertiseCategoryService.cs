@@ -25,10 +25,10 @@ public class AdvertiseCategoryService
     }
 
     // Get Category Details
-    public async Task<AdvertiseCategoryDto> GetCategoryDetailsAsync(string id)
+    public async Task<AdvertiseCategoryDto> GetCategoryByIdAsync(string id)
     {
         // Implementation
-        var categoryDetails = await _repository.GetCategoryDetailsAsync(id);
+        var categoryDetails = await _repository.GetCategoryByIdAsync(id);
         if (categoryDetails == null)
         {
             throw new Exception("CATEGORY_404: No Category found with this ID");

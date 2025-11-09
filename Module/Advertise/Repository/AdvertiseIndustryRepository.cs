@@ -20,7 +20,7 @@ public class AdvertiseIndustryRepository
     }
 
     // Get Industry Details
-    public async Task<AdvertiseIndustryDto?> GetIndustryDetailsAsync(string id)
+    public async Task<AdvertiseIndustryDto?> GetIndustryByIdAsync(string id)
     {
         var industryDetailsDto = await _dbContext.AdvertiseIndustries
             .AsQueryable()
