@@ -25,6 +25,15 @@ public class UserRepository
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
             .FirstOrDefault();
     }
+    
+    public UserDto? GetUserById(string userId)
+    {
+        return _dbContext
+            .Users
+            .Where(user => user.Id == userId)
+            .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefault();
+    }
     public UserProjection_All? GetUserByEmailWithAll(string email)
     {
         return _dbContext.Users

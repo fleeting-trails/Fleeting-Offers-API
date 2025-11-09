@@ -12,11 +12,8 @@
     },
     "ADVERTISE": {
       "CREATE_BY_ADMIN": true,
-      "LIST_OWN": true,
       "LIST_ALL": true,
-      "READ_OWN": true,
-      "READ": true,
-      "DELETE": true
+      "READ": true
     },
     "ADVERTISE_CATEGORY": {
       "CREATE": true,

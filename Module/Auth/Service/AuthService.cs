@@ -125,12 +125,15 @@ public class AuthService
 
             var RoleEnum = Enum.Parse<USER_ROLE>(Res.Role.ToUpper());
 
-            return new TokenValidationResponse(Token.Token, Token.UserId, RoleEnum, Token.DeviceSignature, true);
+            // Get user data
+            var userData = _userRepository.GetUserById(Token.UserId);
+
+            return new TokenValidationResponse(Token.Token, Token.UserId, RoleEnum, Token.DeviceSignature, true, userData);
         }
         catch (Exception e)
         {
             Console.WriteLine($"Access unauthorized. {e.Message}");
-            return new TokenValidationResponse(null, null, null, null, false);
+            return new TokenValidationResponse(null, null, null, null, false, null);
         }
 
     }
