@@ -2,10 +2,11 @@
   "SUPER_ADMIN": {
     "USER": {
       "CREATE": true,
-      "READ": true,
+      "DETAILS": true,
       "UPDATE": true,
       "DELETE": true,
-      "UPDATE_STATUS": true
+      "UPDATE_STATUS": true,
+      "LIST": true
     },
     "UPLOAD": {
       "CREATE": true
