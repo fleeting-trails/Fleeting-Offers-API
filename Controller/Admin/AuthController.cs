@@ -82,7 +82,7 @@ public class AuthController : AdminControllerBase
         );
     }
 
-    [HttpGet("validate-token")]
+        [HttpGet("validate-token")]
     public IActionResult ValidateToken()
     {
         try
@@ -99,24 +99,13 @@ public class AuthController : AdminControllerBase
                 return AppHttpResponse.BadRequest("INVALID_TOKEN: Token cannot be empty");
             }
 
-            var res = _service.ValidateToken(token);
+            var res = _service.ValidateTokenWithPermissions(token);
             if (res == null || !res.IsValid) 
             {
                 return AppHttpResponse.Unauthorized();
             }
             
-            // Return user data along with token validation info
-            var responseData = new
-            {
-                IsValid = res.IsValid,
-                Token = res.Token,
-                UserId = res.UserId,
-                Role = res.Role?.ToString(),
-                Device = res.Device,
-                User = res.User
-            };
-            
-            return AppHttpResponse.Ok(responseData, "Token is valid");
+            return AppHttpResponse.Ok(res, "Token is valid");
         }
         catch (Exception e)
         {

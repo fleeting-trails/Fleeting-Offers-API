@@ -36,3 +36,14 @@ public class UserPermissionDto
     public string SubRoleId { get; set; }
     public string PermissionString { get; set; }
 }
+
+public class TokenValidationWithPermissionsResponse
+{
+    public bool IsValid { get; set; }
+    public string? Token { get; set; }
+    public string? UserId { get; set; }
+    public string? Role { get; set; }
+    public string? Device { get; set; }
+    public object? User { get; set; }
+    public object? Permissions { get; set; }
+}

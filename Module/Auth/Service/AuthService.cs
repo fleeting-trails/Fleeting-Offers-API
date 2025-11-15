@@ -95,9 +95,12 @@ public class AuthService
 
         _repository.UpsertAuthToken(user.Id, deviceSingature, token.Token);
 
+        var permissions = _repository.GetRolePermissions(user.Role.ToString());
+
         return new LoginResponseAdminDto(
             User: user,
-            Token:token.Token
+            Token: token.Token,
+            Permissions: permissions
         );
     }
 
@@ -136,6 +139,26 @@ public class AuthService
             return new TokenValidationResponse(null, null, null, null, false, null);
         }
 
+    }
+
+    public TokenValidationWithPermissionsResponse? ValidateTokenWithPermissions(string? token)
+    {
+        var validationResult = ValidateToken(token);
+        if (validationResult == null || !validationResult.IsValid)
+            return null;
+
+        var permissions = _repository.GetRolePermissions(validationResult.Role?.ToString());
+
+        return new TokenValidationWithPermissionsResponse
+        {
+            IsValid = validationResult.IsValid,
+            Token = validationResult.Token,
+            UserId = validationResult.UserId,
+            Role = validationResult.Role?.ToString(),
+            Device = validationResult.Device,
+            User = validationResult.User,
+            Permissions = permissions
+        };
     }
     #endregion
 
