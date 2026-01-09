@@ -29,6 +29,26 @@
       "UPDATE": true,
       "DETAILS": true,
       "DELETE": true
+    },
+    "PRODUCT": {
+      "CREATE_BY_ADMIN": true,
+      "LIST_ALL": true,
+      "READ": true,
+      "DELETE": true
+    },
+    "PRODUCT_CATEGORY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
+    },
+    "PRODUCT_INDUSTRY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
     }
   },
   "ADMIN": {},
@@ -48,6 +68,21 @@
       "DETAILS": true
     },
     "ADVERTISE_INDUSTRY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "PRODUCT": {
+      "CREATE": true,
+      "LIST_OWN": true,
+      "UPDATE_OWN": true,
+      "READ_OWN": true,
+      "DELETE_OWN": true
+    },
+    "PRODUCT_CATEGORY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "PRODUCT_INDUSTRY": {
       "LIST": true,
       "DETAILS": true
     }

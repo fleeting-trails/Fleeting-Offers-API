@@ -14,6 +14,12 @@ public enum APP_MODULE
     ADVERTISE_CATEGORY,
     [EnumMember(Value = "ADVERTISE_INDUSTRY")]
     ADVERTISE_INDUSTRY,
+    [EnumMember(Value = "PRODUCT")]
+    PRODUCT,
+    [EnumMember(Value = "PRODUCT_CATEGORY")]
+    PRODUCT_CATEGORY,
+    [EnumMember(Value = "PRODUCT_INDUSTRY")]
+    PRODUCT_INDUSTRY,
     [EnumMember(Value = "CAMPAIGN")]
     CAMPAIGN,
     [EnumMember(Value = "SUBSCRIBER")]
