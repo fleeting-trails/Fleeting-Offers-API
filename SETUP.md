@@ -61,6 +61,8 @@ Redis__ConnectionString=redis:6379
 ```
 
 > **Important:** The `Host=postgres` and `redis` hostnames are Docker internal network names. Do NOT change them to `localhost` — the app container uses these names to communicate with the database and cache containers inside Docker's network.
+>
+> **Note on ports:** Inside Docker, PostgreSQL runs on port `5432` and Redis on `6379`. On your host machine, they are mapped to ports `5433` and `6380` respectively (to avoid conflicts with any locally installed PostgreSQL or Redis). The `.env` values above are for the Docker app container — the migration script and local dev settings use the mapped ports automatically.
 
 ---
 
@@ -127,10 +129,10 @@ If you already have `dotnet-ef` installed, make sure it is up to date:
 dotnet tool update --global dotnet-ef
 ```
 
-Then apply the migrations. Use `localhost` here (not `postgres`) because you are running this command on your machine, and the PostgreSQL port `5432` is mapped to your localhost:
+Then apply the migrations. Use `localhost` here (not `postgres`) because you are running this command on your machine. The PostgreSQL port `5432` inside Docker is mapped to port `5433` on your host:
 
 ```bash
-dotnet ef database update --connection "Host=localhost;Port=5432;Username=YOUR_USER;Password=YOUR_PASSWORD;Database=YOUR_DB"
+dotnet ef database update --connection "Host=localhost;Port=5433;Username=YOUR_USER;Password=YOUR_PASSWORD;Database=YOUR_DB"
 ```
 
 Replace `YOUR_USER`, `YOUR_PASSWORD`, and `YOUR_DB` with the exact values you set in your `.env` file for `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB`.
@@ -254,7 +256,7 @@ If you want live hot reload while developing, run the app locally instead of in 
    ```json
    {
      "Database": {
-       "ConnectionString": "Host=localhost;Port=5432;Username=fleetingtrails;Password=YourStrongPassword123!;Database=fleetingtrails"
+       "ConnectionString": "Host=localhost;Port=5433;Username=fleetingtrails;Password=YourStrongPassword123!;Database=fleetingtrails"
      },
      "ConnectionStrings": {
        "Redis": "localhost:6380"
@@ -326,11 +328,13 @@ Removes the last EF migration, creates a new `InitialMigration`, and applies it.
 
 ### `docker compose up` fails with "port already in use"
 
-Another process is using port `5432`, `5001`, `8080`, or `6380`. Stop the conflicting process or change the port mappings in `docker-compose.yaml`.
+Another process is using port `5433`, `5001`, `8080`, or `6380`. Stop the conflicting process or change the port mappings in `docker-compose.yaml`.
 
-### Migrations fail with "connection refused"
+### Migrations fail with "password authentication failed" or "connection refused"
 
-The PostgreSQL container is not ready yet. Wait a few more seconds and retry. You can also check if it is running:
+If you get a **password authentication error**, you may have a local PostgreSQL installation running on port 5432 that is intercepting the connection. Docker maps PostgreSQL to port `5433` to avoid this conflict. Make sure your migration command or script uses port `5433`.
+
+If you get a **connection refused** error, the PostgreSQL container is not ready yet. Wait a few more seconds and retry. You can also check if it is running:
 
 ```bash
 docker ps

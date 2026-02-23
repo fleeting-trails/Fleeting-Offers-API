@@ -29,10 +29,15 @@ if [ -z "$POSTGRES_USER" ] || [ -z "$POSTGRES_PASSWORD" ] || [ -z "$POSTGRES_DB"
     exit 1
 fi
 
-# Construct connection string (using localhost since we're running from host machine)
-CONNECTION_STRING="Host=localhost;Port=5432;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;Database=$POSTGRES_DB"
+# Override Docker-internal connection strings with localhost equivalents
+# (.env uses Host=postgres which only works inside Docker, not from the host machine)
+export Database__ConnectionString="Host=localhost;Port=5433;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;Database=$POSTGRES_DB"
+export Redis__ConnectionString="localhost:6380"
 
-echo "🔌 Connecting to PostgreSQL at localhost:5432..."
+# Construct connection string (using localhost since we're running from host machine)
+CONNECTION_STRING="Host=localhost;Port=5433;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;Database=$POSTGRES_DB"
+
+echo "🔌 Connecting to PostgreSQL at localhost:5433..."
 echo "   Database: $POSTGRES_DB"
 echo "   User: $POSTGRES_USER"
 echo ""
