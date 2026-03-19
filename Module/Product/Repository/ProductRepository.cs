@@ -125,6 +125,7 @@ public class ProductRepository
         entity.Title = dto.Title;
         entity.Subtitle = dto.Subtitle;
         entity.Description = dto.Description;
+        entity.DealId = dto.DealId;
         entity.UpdatedAt = DateTime.UtcNow;
 
         _dbContext.Products.Update(entity);
@@ -264,6 +265,60 @@ public class ProductRepository
             throw new KeyNotFoundException("Industry not found");
 
         _dbContext.ProductIndustries.Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    // Deal Operations (SUPER_ADMIN only)
+    public async Task<ProductDealDto> CreateDealAsync(ProductDealDto dto)
+    {
+        var entity = _mapper.Map<ProductDealEntity>(dto);
+        entity.Slug = GenerateSlug(dto.Name);
+
+        _dbContext.ProductDeals.Add(entity);
+        await _dbContext.SaveChangesAsync();
+
+        return _mapper.Map<ProductDealDto>(entity);
+    }
+
+    public async Task<ProductDealDto> UpdateDealAsync(string id, ProductDealDto dto)
+    {
+        var entity = await _dbContext.ProductDeals.FindAsync(id);
+        if (entity == null)
+            throw new KeyNotFoundException("Deal not found");
+
+        entity.Name = dto.Name;
+        entity.Slug = GenerateSlug(dto.Name);
+        entity.ImageId = dto.ImageId;
+
+        _dbContext.ProductDeals.Update(entity);
+        await _dbContext.SaveChangesAsync();
+
+        return _mapper.Map<ProductDealDto>(entity);
+    }
+
+    public async Task<ProductDealDto?> GetDealAsync(string id)
+    {
+        var entity = await _dbContext.ProductDeals.FindAsync(id);
+        return entity != null ? _mapper.Map<ProductDealDto>(entity) : null;
+    }
+
+    public async Task<List<ProductDealDto>> GetAllDealsAsync()
+    {
+        var deals = await _dbContext.ProductDeals
+            .OrderBy(d => d.Name)
+            .ProjectTo<ProductDealDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+
+        return deals;
+    }
+
+    public async Task DeleteDealAsync(string id)
+    {
+        var entity = await _dbContext.ProductDeals.FindAsync(id);
+        if (entity == null)
+            throw new KeyNotFoundException("Deal not found");
+
+        _dbContext.ProductDeals.Remove(entity);
         await _dbContext.SaveChangesAsync();
     }
 

@@ -20,6 +20,7 @@ public class CreateProductDto
     // Foreign Keys for Category & Industry
     public string? CategoryId { get; set; }
     public string? SubCategoryId { get; set; }
+    public string? DealId { get; set; }
 
     // Tags
     public List<string>? Tags { get; set; }
@@ -46,6 +47,7 @@ public class UpdateProductDetailsDto
     // Foreign Keys for Category & Industry
     public string? CategoryId { get; set; }
     public string? SubCategoryId { get; set; }
+    public string? DealId { get; set; }
 }
 
 public class CreateProductAdminDto

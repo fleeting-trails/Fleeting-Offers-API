@@ -20,6 +20,8 @@ public enum APP_MODULE
     PRODUCT_CATEGORY,
     [EnumMember(Value = "PRODUCT_INDUSTRY")]
     PRODUCT_INDUSTRY,
+    [EnumMember(Value = "PRODUCT_DEAL")]
+    PRODUCT_DEAL,
     [EnumMember(Value = "CAMPAIGN")]
     CAMPAIGN,
     [EnumMember(Value = "SUBSCRIBER")]

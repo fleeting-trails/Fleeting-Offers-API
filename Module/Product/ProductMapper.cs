@@ -30,6 +30,16 @@ public class ProductMapper : Profile
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
+        // Deal mappings
+        CreateMap<ProductDealEntity, ProductDealDto>().ReverseMap();
+        CreateMap<CreateProductDealDto, ProductDealDto>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+        CreateMap<UpdateProductDealDto, ProductDealDto>()
+            .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
+
         // Projections
         CreateMap<ProductProjection_AllDto, ProductEntity>().ReverseMap();
 

@@ -31,7 +31,6 @@
       "DELETE": true
     },
     "PRODUCT": {
-      "CREATE_BY_ADMIN": true,
       "LIST_ALL": true,
       "READ": true,
       "DELETE": true
@@ -44,6 +43,13 @@
       "DELETE": true
     },
     "PRODUCT_INDUSTRY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
+    },
+    "PRODUCT_DEAL": {
       "CREATE": true,
       "LIST": true,
       "UPDATE": true,

@@ -38,6 +38,9 @@ public class ProductEntity
     public string? SubCategoryId { get; set; }
     public ProductIndustryEntity? SubCategory { get; set; }
 
+    public string? DealId { get; set; }
+    public ProductDealEntity? Deal { get; set; }
+
     [Required]
     public string CreatedById { get; set; }
 
@@ -107,6 +110,26 @@ public class ProductCategoryEntity
 
 // Industry Entity - Managed by SUPER_ADMIN
 public class ProductIndustryEntity
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public string Id { get; set; }
+
+    [Required]
+    public string Name { get; set; }
+
+    [Required]
+    public string Slug { get; set; }
+
+    public string? ImageId { get; set; }
+    public UploadEntity? Image { get; set; }
+
+    [Required]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+}
+
+// Deal Entity - Managed by SUPER_ADMIN
+public class ProductDealEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

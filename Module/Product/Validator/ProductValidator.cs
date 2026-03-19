@@ -60,4 +60,21 @@ public class ProductValidator
             throw new Exception("INDUSTRY_VALIDATION: Industry name cannot be empty");
         }
     }
+
+    // Product Deal Validations
+    public void ValidateCreateProductDeal(CreateProductDealDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+        {
+            throw new Exception("DEAL_VALIDATION: Deal name cannot be empty");
+        }
+    }
+
+    public void ValidateUpdateProductDeal(UpdateProductDealDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+        {
+            throw new Exception("DEAL_VALIDATION: Deal name cannot be empty");
+        }
+    }
 }

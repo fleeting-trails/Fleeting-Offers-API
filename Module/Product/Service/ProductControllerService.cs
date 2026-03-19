@@ -181,4 +181,40 @@ public class ProductControllerService
     {
         await _repository.DeleteIndustryAsync(id);
     }
+
+    // Deal Operations (SUPER_ADMIN)
+    public async Task<ProductDealDto> CreateDealAsync(CreateProductDealDto dto)
+    {
+        _validator.ValidateCreateProductDeal(dto);
+        var dealDto = _mapper.Map<ProductDealDto>(dto);
+        return await _repository.CreateDealAsync(dealDto);
+    }
+
+    public async Task<ProductDealDto> UpdateDealAsync(string id, UpdateProductDealDto dto)
+    {
+        _validator.ValidateUpdateProductDeal(dto);
+        var dealDto = _mapper.Map<ProductDealDto>(dto);
+        dealDto.Id = id;
+        return await _repository.UpdateDealAsync(id, dealDto);
+    }
+
+    public async Task<ProductDealDto> GetDealAsync(string id)
+    {
+        var deal = await _repository.GetDealAsync(id);
+        if (deal == null)
+        {
+            throw new Exception("DEAL_404: No Deal found with this ID");
+        }
+        return deal;
+    }
+
+    public async Task<List<ProductDealDto>> GetAllDealsAsync()
+    {
+        return await _repository.GetAllDealsAsync();
+    }
+
+    public async Task DeleteDealAsync(string id)
+    {
+        await _repository.DeleteDealAsync(id);
+    }
 }

@@ -49,6 +49,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ProductAdditionalImageEntity> ProductAdditionalImages { get; set; }
     public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
     public DbSet<ProductIndustryEntity> ProductIndustries { get; set; }
+    public DbSet<ProductDealEntity> ProductDeals { get; set; }
     public DbSet<ProductTagEntity> ProductTags { get; set; }
 
     // Campaign Module

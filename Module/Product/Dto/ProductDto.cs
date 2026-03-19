@@ -14,6 +14,7 @@ public class ProductDto
     // Foreign Keys for Category & Industry
     public string? CategoryId { get; set; }
     public string? SubCategoryId { get; set; }
+    public string? DealId { get; set; }
     public string CreatedById { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -45,6 +46,15 @@ public class ProductCategoryDto
 }
 
 public class ProductIndustryDto
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Slug { get; set; }
+    public string? ImageId { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+}
+
+public class ProductDealDto
 {
     public string Id { get; set; }
     public string Name { get; set; }

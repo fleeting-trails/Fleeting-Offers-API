@@ -1,6 +1,7 @@
 using FleetingOffers.Common.Enum;
 using FleetingOffers.Http;
 using FleetingOffers.Module.Product;
+using FleetingOffers.Module.User;
 using FleetingOffers.Settings;
 using Microsoft.AspNetCore.Mvc;
 
@@ -168,7 +169,7 @@ public class ProductController : AdminControllerBase
     /// Creates a product for organization by admin.
     /// </summary>
     /// <remarks>
-    /// 🔐 Roles allowed: Admin, SuperAdmin
+    /// 🔐 Roles allowed: Admin
     /// </remarks>
     [HttpPost("create-by-admin")]
     public async Task<IActionResult> CreateProductByAdmin([FromBody] CreateProductAdminDto dto)
@@ -182,6 +183,10 @@ public class ProductController : AdminControllerBase
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
+                    if (authPayload.Role == USER_ROLE.SUPER_ADMIN)
+                    {
+                        return AppHttpResponse.Unauthorized();
+                    }
                     await _service.CreateProductByAdminAsync(authPayload.UserId, dto);
                     return AppHttpResponse.Ok("Ok");
                 }
