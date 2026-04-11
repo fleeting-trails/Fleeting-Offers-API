@@ -1,4 +1,5 @@
 using AutoMapper;
+using FleetingOffers.Module.Upload;
 
 namespace FleetingOffers.Module.Product;
 
@@ -6,12 +7,24 @@ public class ProductMapper : Profile
 {
     public ProductMapper() 
     {
-        CreateMap<ProductEntity, ProductDto>().ReverseMap();
+        CreateMap<ProductEntity, ProductDto>()
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+            .ForMember(dest => dest.SubCategory, opt => opt.MapFrom(src => src.SubCategory))
+            .ForMember(dest => dest.Deal, opt => opt.MapFrom(src => src.Deal))
+            .ForMember(dest => dest.CoverImage, opt => opt.MapFrom(src => src.CoverImage))
+            .ForMember(dest => dest.ThumbnailImage, opt => opt.MapFrom(src => src.ThumbnailImage))
+            .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
+            .ForMember(dest => dest.AdditionalImages, opt => opt.MapFrom(src => src.AdditionalImages))
+            .ReverseMap();
+            
         CreateMap<CreateProductDto, ProductDto>();
         CreateMap<ProductOwnerEntity, ProductOwnerDto>().ReverseMap();
 
-        // Category mappings
-        CreateMap<ProductCategoryEntity, ProductCategoryDto>().ReverseMap();
+        CreateMap<UploadEntity, UploadDto>().ReverseMap();
+
+        CreateMap<ProductCategoryEntity, ProductCategoryDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+            .ReverseMap();
         CreateMap<CreateProductCategoryDto, ProductCategoryDto>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
@@ -20,8 +33,9 @@ public class ProductMapper : Profile
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
-        // Industry mappings
-        CreateMap<ProductIndustryEntity, ProductIndustryDto>().ReverseMap();
+        CreateMap<ProductIndustryEntity, ProductIndustryDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+            .ReverseMap();
         CreateMap<CreateProductIndustryDto, ProductIndustryDto>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
@@ -30,8 +44,9 @@ public class ProductMapper : Profile
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
-        // Deal mappings
-        CreateMap<ProductDealEntity, ProductDealDto>().ReverseMap();
+        CreateMap<ProductDealEntity, ProductDealDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+            .ReverseMap();
         CreateMap<CreateProductDealDto, ProductDealDto>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
@@ -40,12 +55,20 @@ public class ProductMapper : Profile
             .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => GenerateSlug(src.Name)))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
-        // Projections
+        CreateMap<ProductTagEntity, ProductTagDto>().ReverseMap();
+
+        CreateMap<ProductAdditionalImageEntity, ProductAdditionalImageDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+            .ReverseMap();
+
         CreateMap<ProductProjection_AllDto, ProductEntity>().ReverseMap();
 
-        // HTTP Dtos
-        CreateMap<CreateProductDto, ProductEntity>();
-        CreateMap<UpdateProductDetailsDto, ProductDto>();
+        CreateMap<CreateProductDto, ProductDto>()
+            .ForMember(dest => dest.Tags, opt => opt.Ignore())
+            .ForMember(dest => dest.AdditionalImages, opt => opt.Ignore());
+        CreateMap<UpdateProductDetailsDto, ProductDto>()
+            .ForMember(dest => dest.Tags, opt => opt.Ignore())
+            .ForMember(dest => dest.AdditionalImages, opt => opt.Ignore());
     }
     
     private static string GenerateSlug(string name)

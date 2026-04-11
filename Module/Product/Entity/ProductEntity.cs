@@ -22,6 +22,9 @@ public class ProductEntity
 
     public string? Description { get; set; }
 
+    [Required]
+    public decimal Price { get; set; }
+
     // Foreign Keys for Images
     public string? CoverImageId { get; set; }
     [ForeignKey("CoverImageId")]

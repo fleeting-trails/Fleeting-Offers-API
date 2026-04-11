@@ -2,9 +2,6 @@ namespace FleetingOffers.Module.Product;
 
 public class ProductProjection_AllDto : ProductDto
 {
-    public ICollection<ProductAdditionalImageEntity> AdditionalImages { get; set; } = new List<ProductAdditionalImageEntity>();
-    public ICollection<ProductTagEntity> Tags { get; set; } = new List<ProductTagEntity>();
-    public ICollection<ProductOwnerEntity> Owners { get; set; } = new List<ProductOwnerEntity>();
 }
 
 public class ProductCategoryProjection_DetailDto : ProductCategoryDto

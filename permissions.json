@@ -91,6 +91,10 @@
     "PRODUCT_INDUSTRY": {
       "LIST": true,
       "DETAILS": true
+    },
+    "PRODUCT_DEAL": {
+      "LIST": true,
+      "DETAILS": true
     }
   }
 }

@@ -13,16 +13,16 @@ public class CreateProductDto
 
     public string? Description { get; set; }
 
-    // Foreign Keys for Images
+    [Required]
+    public decimal Price { get; set; }
+
     public string? CoverImageId { get; set; }
     public string? ThumbnailImageId { get; set; }
 
-    // Foreign Keys for Category & Industry
     public string? CategoryId { get; set; }
     public string? SubCategoryId { get; set; }
     public string? DealId { get; set; }
 
-    // Tags
     public List<string>? Tags { get; set; }
 }
 
@@ -39,6 +39,9 @@ public class UpdateProductDetailsDto
     public string? Subtitle { get; set; }
 
     public string? Description { get; set; }
+
+    [Required]
+    public decimal Price { get; set; }
 
     // Foreign Keys for Images
     public string? CoverImageId { get; set; }

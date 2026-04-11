@@ -72,7 +72,7 @@ public class ProductControllerService
             OwnershipType = PRODUCT_OWNERSHIP.OWNER
         };
         var productDto = _mapper.Map<ProductDto>(dto);
-        await _repository.CreateProductAsync(createdBy, productDto, [owner]);
+        await _repository.CreateProductAsync(createdBy, productDto, [owner], dto.Tags);
     }
 
     public async Task CreateProductByAdminAsync(string createdBy, CreateProductAdminDto dto) 
@@ -90,7 +90,7 @@ public class ProductControllerService
             });
         }
         
-        await _repository.CreateProductAsync(createdBy, productDto, productOwners);
+        await _repository.CreateProductAsync(createdBy, productDto, productOwners, dto.Product.Tags);
     }
 
     public async Task UpdateProductDetailsAsync(string userId, UpdateProductDetailsDto dto)

@@ -19,13 +19,25 @@ public class ProductRepository
         _mapper = mapper;
     }
 
+    private IQueryable<ProductEntity> GetProductsWithAllIncludes(IQueryable<ProductEntity> query)
+    {
+        return query
+            .Include(p => p.Category).ThenInclude(c => c.Image)
+            .Include(p => p.SubCategory).ThenInclude(s => s.Image)
+            .Include(p => p.Deal).ThenInclude(d => d.Image)
+            .Include(p => p.CoverImage)
+            .Include(p => p.ThumbnailImage)
+            .Include(p => p.Tags)
+            .Include(p => p.AdditionalImages).ThenInclude(a => a.Image);
+    }
+
     // Product CRUD Operations
     public async Task<ProductProjection_AllDto?> GetOwnProductWithAllAsync(string userId, string id)
     {
-        var productDto = await _dbContext.Products
-            .AsQueryable()
-            .Where(p => p.Id == id && (p.Owners.Any(o => o.UserId == userId) || p.CreatedById == userId))
-            .ProjectTo<ProductProjection_AllDto>(_mapper.ConfigurationProvider)
+        var productDto = await GetProductsWithAllIncludes(
+            _dbContext.Products.AsQueryable()
+                .Where(p => p.Id == id && (p.Owners.Any(o => o.UserId == userId) || p.CreatedById == userId))
+        ).ProjectTo<ProductProjection_AllDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
 
         return productDto;
@@ -33,10 +45,9 @@ public class ProductRepository
 
     public async Task<ProductProjection_AllDto?> GetProductWithAllAsync(string id)
     {
-        var productDto = await _dbContext.Products
-            .AsQueryable()
-            .Where(p => p.Id == id)
-            .ProjectTo<ProductProjection_AllDto>(_mapper.ConfigurationProvider)
+        var productDto = await GetProductsWithAllIncludes(
+            _dbContext.Products.AsQueryable().Where(p => p.Id == id)
+        ).ProjectTo<ProductProjection_AllDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
 
         return productDto;
@@ -47,12 +58,15 @@ public class ProductRepository
         var query = _dbContext.Products
             .AsQueryable()
             .Where(p => p.Owners.Any(o => o.UserId == userId) || p.CreatedById == userId)
-            .OrderByDescending(p => p.CreatedAt)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize);
+            .OrderByDescending(p => p.CreatedAt);
 
         var totalItems = await query.CountAsync();
-        var items = await query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).ToListAsync();
+        
+        var items = await GetProductsWithAllIncludes(query)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
         return new PaginatedResult<ProductDto>
         {
@@ -67,12 +81,15 @@ public class ProductRepository
     {
         var query = _dbContext.Products
             .AsQueryable()
-            .OrderByDescending(p => p.CreatedAt)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize);
+            .OrderByDescending(p => p.CreatedAt);
 
         var totalItems = await query.CountAsync();
-        var items = await query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).ToListAsync();
+        
+        var items = await GetProductsWithAllIncludes(query)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
         return new PaginatedResult<ProductDto>
         {
@@ -86,7 +103,8 @@ public class ProductRepository
     public async Task<ProductDto> CreateProductAsync(
         string createdBy,
         ProductDto dto,
-        List<ProductOwnerDto> owners
+        List<ProductOwnerDto> owners,
+        List<string>? tags = null
     )
     {
         ProductEntity productEntity = _mapper.Map<ProductEntity>(dto);
@@ -108,9 +126,28 @@ public class ProductRepository
         }
 
         _dbContext.AddRange(ownersEntity);
+        
+        if (tags?.Any() == true)
+        {
+            var tagEntities = tags
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .Distinct()
+                .Select(t => new ProductTagEntity 
+                { 
+                    Tag = t.Trim(),
+                    ProductId = productEntity.Id
+                })
+                .ToList();
+            _dbContext.AddRange(tagEntities);
+        }
+        
         await _dbContext.SaveChangesAsync();
 
-        return _mapper.Map<ProductDto>(productEntity);
+        var created = await GetProductsWithAllIncludes(
+            _dbContext.Products.AsQueryable().Where(p => p.Id == productEntity.Id)
+        ).FirstOrDefaultAsync();
+
+        return _mapper.Map<ProductDto>(created);
     }
 
     public async Task<ProductDto> UpdateProductAsync(string userId, ProductDto dto)
@@ -125,13 +162,18 @@ public class ProductRepository
         entity.Title = dto.Title;
         entity.Subtitle = dto.Subtitle;
         entity.Description = dto.Description;
+        entity.Price = dto.Price;
         entity.DealId = dto.DealId;
         entity.UpdatedAt = DateTime.UtcNow;
 
         _dbContext.Products.Update(entity);
         await _dbContext.SaveChangesAsync();
 
-        return _mapper.Map<ProductDto>(entity);
+        var updated = await GetProductsWithAllIncludes(
+            _dbContext.Products.AsQueryable().Where(p => p.Id == dto.Id)
+        ).FirstOrDefaultAsync();
+
+        return _mapper.Map<ProductDto>(updated);
     }
 
     public async Task DeleteProductAsync(string userId, string id)
