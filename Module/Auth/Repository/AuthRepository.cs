@@ -133,4 +133,31 @@ public class AuthRepository
         return false;
     }
 
+    public object? GetRolePermissions(string? role)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(role))
+                return null;
+
+            var permissionsPath = Path.Combine(Directory.GetCurrentDirectory(), "permissions.json");
+            if (!System.IO.File.Exists(permissionsPath))
+                return null;
+
+            var permissionsJson = System.IO.File.ReadAllText(permissionsPath);
+            var permissionsData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(permissionsJson);
+            
+            if (permissionsData != null && permissionsData.ContainsKey(role))
+            {
+                return permissionsData[role];
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
 }

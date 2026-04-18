@@ -1,5 +1,6 @@
 *.db
 .env
+data/
 
 Viewed 122k times
 

@@ -3,6 +3,7 @@ using System;
 using FleetingOffers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260109104035_AddProductModule")]
+    partial class AddProductModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -573,33 +576,6 @@ namespace FleetingOffers.Migrations
                     b.ToTable("ProductCategories");
                 });
 
-            modelBuilder.Entity("FleetingOffers.Module.Product.ProductDealEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImageId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("ProductDeals");
-                });
-
             modelBuilder.Entity("FleetingOffers.Module.Product.ProductEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -619,14 +595,8 @@ namespace FleetingOffers.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("DealId")
-                        .HasColumnType("text");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
 
                     b.Property<string>("SubCategoryId")
                         .HasColumnType("text");
@@ -653,8 +623,6 @@ namespace FleetingOffers.Migrations
                     b.HasIndex("CoverImageId");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("DealId");
 
                     b.HasIndex("SubCategoryId");
 
@@ -1127,8 +1095,8 @@ namespace FleetingOffers.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b6a6dd30-7317-40cd-9942-1889c6ec5d86",
-                            CreatedAt = new DateTime(2026, 3, 19, 10, 25, 21, 406, DateTimeKind.Utc).AddTicks(4487),
+                            Id = "2ae008ad-60c5-497c-91b8-68c501f7f908",
+                            CreatedAt = new DateTime(2026, 1, 9, 10, 40, 34, 312, DateTimeKind.Utc).AddTicks(9197),
                             Email = "abtahitajwar@gmail.com",
                             FullName = "Abtahi Tajwar",
                             IsPasswordSet = false,
@@ -1137,8 +1105,8 @@ namespace FleetingOffers.Migrations
                         },
                         new
                         {
-                            Id = "ac134362-5e8c-49ba-919e-e687f260e9b5",
-                            CreatedAt = new DateTime(2026, 3, 19, 10, 25, 21, 406, DateTimeKind.Utc).AddTicks(4554),
+                            Id = "22a67824-c660-4970-b735-1efcb12785fa",
+                            CreatedAt = new DateTime(2026, 1, 9, 10, 40, 34, 312, DateTimeKind.Utc).AddTicks(9267),
                             Email = "samaheerzameel@gmail.com",
                             FullName = "Samaheer Zameel",
                             IsPasswordSet = false,
@@ -1147,8 +1115,8 @@ namespace FleetingOffers.Migrations
                         },
                         new
                         {
-                            Id = "b21a6e8c-76c7-4a42-9bc3-1e10d104c483",
-                            CreatedAt = new DateTime(2026, 3, 19, 10, 25, 21, 406, DateTimeKind.Utc).AddTicks(4563),
+                            Id = "b2f0b6e7-ef35-45cc-9b64-8e90df8dce26",
+                            CreatedAt = new DateTime(2026, 1, 9, 10, 40, 34, 312, DateTimeKind.Utc).AddTicks(9274),
                             Email = "fleetingtrails@gmail.com",
                             FullName = "Fleeting Trails",
                             IsPasswordSet = false,
@@ -1380,15 +1348,6 @@ namespace FleetingOffers.Migrations
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("FleetingOffers.Module.Product.ProductDealEntity", b =>
-                {
-                    b.HasOne("FleetingOffers.Module.Upload.UploadEntity", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("FleetingOffers.Module.Product.ProductEntity", b =>
                 {
                     b.HasOne("FleetingOffers.Module.Product.ProductCategoryEntity", "Category")
@@ -1405,10 +1364,6 @@ namespace FleetingOffers.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FleetingOffers.Module.Product.ProductDealEntity", "Deal")
-                        .WithMany()
-                        .HasForeignKey("DealId");
-
                     b.HasOne("FleetingOffers.Module.Product.ProductIndustryEntity", "SubCategory")
                         .WithMany()
                         .HasForeignKey("SubCategoryId");
@@ -1422,8 +1377,6 @@ namespace FleetingOffers.Migrations
                     b.Navigation("CoverImage");
 
                     b.Navigation("CreatedBy");
-
-                    b.Navigation("Deal");
 
                     b.Navigation("SubCategory");
 

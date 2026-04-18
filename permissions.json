@@ -2,20 +2,59 @@
   "SUPER_ADMIN": {
     "USER": {
       "CREATE": true,
-      "READ": true,
+      "DETAILS": true,
       "UPDATE": true,
       "DELETE": true,
-      "UPDATE_STATUS": true
+      "UPDATE_STATUS": true,
+      "LIST": true
     },
     "UPLOAD": {
       "CREATE": true
     },
     "ADVERTISE": {
       "CREATE_BY_ADMIN": true,
-      "LIST_OWN": true,
       "LIST_ALL": true,
-      "READ_OWN": true,
       "READ": true
+    },
+    "ADVERTISE_CATEGORY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
+    },
+    "ADVERTISE_INDUSTRY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
+    },
+    "PRODUCT": {
+      "LIST_ALL": true,
+      "READ": true,
+      "DELETE": true
+    },
+    "PRODUCT_CATEGORY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
+    },
+    "PRODUCT_INDUSTRY": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
+    },
+    "PRODUCT_DEAL": {
+      "CREATE": true,
+      "LIST": true,
+      "UPDATE": true,
+      "DETAILS": true,
+      "DELETE": true
     }
   },
   "ADMIN": {},
@@ -24,10 +63,38 @@
       "CREATE": true,
       "LIST_OWN": true,
       "UPDATE_OWN": true,
-      "READ_OWN": true
+      "READ_OWN": true,
+      "DELETE_OWN": true
     },
     "UPLOAD": {
       "CREATE": true
+    },
+    "ADVERTISE_CATEGORY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "ADVERTISE_INDUSTRY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "PRODUCT": {
+      "CREATE": true,
+      "LIST_OWN": true,
+      "UPDATE_OWN": true,
+      "READ_OWN": true,
+      "DELETE_OWN": true
+    },
+    "PRODUCT_CATEGORY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "PRODUCT_INDUSTRY": {
+      "LIST": true,
+      "DETAILS": true
+    },
+    "PRODUCT_DEAL": {
+      "LIST": true,
+      "DETAILS": true
     }
   }
 }

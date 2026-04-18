@@ -46,6 +46,12 @@ public class UploadService
         List<UploadDto> fileEntries = new();
         List<Task> copyTasks = new(); // ✅ Move outside the loop to ensure all tasks are awaited
 
+        // ✅ Ensure storage directory exists
+        if (!Directory.Exists(UploadSettings.StoragePath))
+        {
+            Directory.CreateDirectory(UploadSettings.StoragePath);
+        }
+
         foreach (var formFile in files)
         {
             if (formFile.Length > 0)

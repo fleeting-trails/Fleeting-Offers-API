@@ -6,6 +6,7 @@ using FleetingOffers.Module.Upload;
 using FleetingOffers.Module.Location;
 using FleetingOffers.Module.Subscriber;
 using FleetingOffers.Module.User;
+using FleetingOffers.Module.Product;
 using Microsoft.EntityFrameworkCore;
 using FleetingOffers.Util.Helper;
 using System.Diagnostics;
@@ -42,6 +43,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<AdvertiseTagEntity> AdvertiseTags { get; set; }
     public DbSet<AdvertiseAnalyticsEntity> AdvertiseAnalytics { get; set; }
 
+    // Product Module
+    public DbSet<ProductEntity> Products { get; set; }
+    public DbSet<ProductOwnerEntity> ProductOwners { get; set; }
+    public DbSet<ProductAdditionalImageEntity> ProductAdditionalImages { get; set; }
+    public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
+    public DbSet<ProductIndustryEntity> ProductIndustries { get; set; }
+    public DbSet<ProductDealEntity> ProductDeals { get; set; }
+    public DbSet<ProductTagEntity> ProductTags { get; set; }
 
     // Campaign Module
     public DbSet<CampaignEntity> Campaigns { get; set; }

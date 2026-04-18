@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250922063652_InitialMigration")]
+    [Migration("20251024113316_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -910,8 +910,8 @@ namespace FleetingOffers.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6161315b-a43b-4a98-bd10-8a9ff32925ad",
-                            CreatedAt = new DateTime(2025, 9, 22, 6, 36, 51, 818, DateTimeKind.Utc).AddTicks(9150),
+                            Id = "5afb18fe-bfae-444c-bd3c-2df9dc12497a",
+                            CreatedAt = new DateTime(2025, 10, 24, 11, 33, 15, 777, DateTimeKind.Utc).AddTicks(2391),
                             Email = "abtahitajwar@gmail.com",
                             FullName = "Abtahi Tajwar",
                             IsPasswordSet = false,
@@ -920,8 +920,8 @@ namespace FleetingOffers.Migrations
                         },
                         new
                         {
-                            Id = "aeb37959-527a-4f71-90b9-dbc7295c2ba6",
-                            CreatedAt = new DateTime(2025, 9, 22, 6, 36, 51, 818, DateTimeKind.Utc).AddTicks(9200),
+                            Id = "5265c6ed-1d84-4488-9a26-03f38559861b",
+                            CreatedAt = new DateTime(2025, 10, 24, 11, 33, 15, 777, DateTimeKind.Utc).AddTicks(2466),
                             Email = "samaheerzameel@gmail.com",
                             FullName = "Samaheer Zameel",
                             IsPasswordSet = false,
@@ -930,8 +930,8 @@ namespace FleetingOffers.Migrations
                         },
                         new
                         {
-                            Id = "0e885119-4cf7-40c2-b2fa-0b9d24fdbf93",
-                            CreatedAt = new DateTime(2025, 9, 22, 6, 36, 51, 818, DateTimeKind.Utc).AddTicks(9200),
+                            Id = "55e1b244-226b-4b2e-8706-50843f99debc",
+                            CreatedAt = new DateTime(2025, 10, 24, 11, 33, 15, 777, DateTimeKind.Utc).AddTicks(2473),
                             Email = "fleetingtrails@gmail.com",
                             FullName = "Fleeting Trails",
                             IsPasswordSet = false,

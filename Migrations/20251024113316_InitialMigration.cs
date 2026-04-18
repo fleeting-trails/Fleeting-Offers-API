@@ -695,9 +695,9 @@ namespace FleetingOffers.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsPasswordSet", "LastLoggedIn", "OtpId", "PasswordId", "RestrictedUserSubRoleId", "Role", "UserSubRoleId", "Username" },
                 values: new object[,]
                 {
-                    { "0e885119-4cf7-40c2-b2fa-0b9d24fdbf93", new DateTime(2025, 9, 22, 6, 36, 51, 818, DateTimeKind.Utc).AddTicks(9200), "fleetingtrails@gmail.com", "Fleeting Trails", false, null, null, null, null, 2, null, "fleeting_trails" },
-                    { "6161315b-a43b-4a98-bd10-8a9ff32925ad", new DateTime(2025, 9, 22, 6, 36, 51, 818, DateTimeKind.Utc).AddTicks(9150), "abtahitajwar@gmail.com", "Abtahi Tajwar", false, null, null, null, null, 0, null, "abtahi_tajwar" },
-                    { "aeb37959-527a-4f71-90b9-dbc7295c2ba6", new DateTime(2025, 9, 22, 6, 36, 51, 818, DateTimeKind.Utc).AddTicks(9200), "samaheerzameel@gmail.com", "Samaheer Zameel", false, null, null, null, null, 1, null, "samaheer_zameel" }
+                    { "5265c6ed-1d84-4488-9a26-03f38559861b", new DateTime(2025, 10, 24, 11, 33, 15, 777, DateTimeKind.Utc).AddTicks(2466), "samaheerzameel@gmail.com", "Samaheer Zameel", false, null, null, null, null, 1, null, "samaheer_zameel" },
+                    { "55e1b244-226b-4b2e-8706-50843f99debc", new DateTime(2025, 10, 24, 11, 33, 15, 777, DateTimeKind.Utc).AddTicks(2473), "fleetingtrails@gmail.com", "Fleeting Trails", false, null, null, null, null, 2, null, "fleeting_trails" },
+                    { "5afb18fe-bfae-444c-bd3c-2df9dc12497a", new DateTime(2025, 10, 24, 11, 33, 15, 777, DateTimeKind.Utc).AddTicks(2391), "abtahitajwar@gmail.com", "Abtahi Tajwar", false, null, null, null, null, 0, null, "abtahi_tajwar" }
                 });
 
             migrationBuilder.CreateIndex(

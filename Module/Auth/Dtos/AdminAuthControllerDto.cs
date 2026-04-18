@@ -28,5 +28,6 @@ public record LoginPayloadAdminDto (
 );
 public record LoginResponseAdminDto (
     UserDto User,
-    string Token
+    string Token,
+    object? Permissions
 );

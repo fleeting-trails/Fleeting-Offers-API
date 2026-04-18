@@ -82,4 +82,35 @@ public class AuthController : AdminControllerBase
         );
     }
 
+        [HttpGet("validate-token")]
+    public IActionResult ValidateToken()
+    {
+        try
+        {
+            var authHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                return AppHttpResponse.BadRequest("MISSING_TOKEN: Authorization header with Bearer token is required");
+            }
+
+            var token = authHeader.Substring("Bearer ".Length).Trim();
+            if (string.IsNullOrEmpty(token))
+            {
+                return AppHttpResponse.BadRequest("INVALID_TOKEN: Token cannot be empty");
+            }
+
+            var res = _service.ValidateTokenWithPermissions(token);
+            if (res == null || !res.IsValid) 
+            {
+                return AppHttpResponse.Unauthorized();
+            }
+            
+            return AppHttpResponse.Ok(res, "Token is valid");
+        }
+        catch (Exception e)
+        {
+            return AppHttpResponse.BadRequest(e.Message);
+        }
+    }   
+
 }

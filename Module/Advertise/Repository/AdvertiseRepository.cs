@@ -117,24 +117,50 @@ public class AdvertiseRepository
         AdvertiseDto dto
     )
     {
-    var entity = await _dbContext.Advertises
-        .Where(a => a.Id == dto.Id && (a.Owners.Any(o => o.UserId == userId) || a.CreatedById == userId))
-        .FirstOrDefaultAsync();
+        var entity = await _dbContext.Advertises
+            .Where(a => a.Id == dto.Id && (a.Owners.Any(o => o.UserId == userId) || a.CreatedById == userId))
+            .FirstOrDefaultAsync();
 
-    if (entity == null)
-        throw new KeyNotFoundException("Advertise not found");
+        if (entity == null)
+            throw new KeyNotFoundException("Advertise not found");
 
-    // Update simple fields
-    entity.Title = dto.Title;
-    entity.Subtitle = dto.Subtitle;
-    entity.Description = dto.Description;
-    entity.StartDate = dto.StartDate;
-    entity.ExpirationDate = dto.ExpirationDate;
-    entity.UpdatedAt = DateTime.UtcNow;
+        // Update simple fields
+        entity.Title = dto.Title;
+        entity.Subtitle = dto.Subtitle;
+        entity.Description = dto.Description;
+        entity.StartDate = dto.StartDate;
+        entity.ExpirationDate = dto.ExpirationDate;
+        entity.UpdatedAt = DateTime.UtcNow;
 
-    _dbContext.Advertises.Update(entity);
-    await _dbContext.SaveChangesAsync();
+        _dbContext.Advertises.Update(entity);
+        await _dbContext.SaveChangesAsync();
 
-    return _mapper.Map<AdvertiseDto>(entity);
-}
+        return _mapper.Map<AdvertiseDto>(entity);
+    }
+
+    public async Task DeleteAdvertiseAsync(string userId, string id)
+    {
+        var entity = await _dbContext.Advertises
+            .Where(a => a.Id == id && (a.Owners.Any(o => o.UserId == userId) || a.CreatedById == userId))
+            .FirstOrDefaultAsync();
+
+        if (entity == null)
+            throw new KeyNotFoundException("Advertise not found");
+
+        _dbContext.Advertises.Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteAdvertiseByAdminAsync(string id)
+    {
+        var entity = await _dbContext.Advertises
+            .Where(a => a.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (entity == null)
+            throw new KeyNotFoundException("Advertise not found");
+
+        _dbContext.Advertises.Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
 }

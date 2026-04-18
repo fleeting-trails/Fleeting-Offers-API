@@ -3,6 +3,7 @@ using System;
 using FleetingOffers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FleetingOffers.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260314110025_AddProductDealModule")]
+    partial class AddProductDealModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -625,9 +628,6 @@ namespace FleetingOffers.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
                     b.Property<string>("SubCategoryId")
                         .HasColumnType("text");
 
@@ -1127,8 +1127,8 @@ namespace FleetingOffers.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b6a6dd30-7317-40cd-9942-1889c6ec5d86",
-                            CreatedAt = new DateTime(2026, 3, 19, 10, 25, 21, 406, DateTimeKind.Utc).AddTicks(4487),
+                            Id = "e537011b-7e56-496d-89df-83d735d1cf1b",
+                            CreatedAt = new DateTime(2026, 3, 14, 11, 0, 24, 458, DateTimeKind.Utc).AddTicks(8670),
                             Email = "abtahitajwar@gmail.com",
                             FullName = "Abtahi Tajwar",
                             IsPasswordSet = false,
@@ -1137,8 +1137,8 @@ namespace FleetingOffers.Migrations
                         },
                         new
                         {
-                            Id = "ac134362-5e8c-49ba-919e-e687f260e9b5",
-                            CreatedAt = new DateTime(2026, 3, 19, 10, 25, 21, 406, DateTimeKind.Utc).AddTicks(4554),
+                            Id = "9a5a9ee4-c4f7-40af-88a4-578d0d7f5555",
+                            CreatedAt = new DateTime(2026, 3, 14, 11, 0, 24, 458, DateTimeKind.Utc).AddTicks(8733),
                             Email = "samaheerzameel@gmail.com",
                             FullName = "Samaheer Zameel",
                             IsPasswordSet = false,
@@ -1147,8 +1147,8 @@ namespace FleetingOffers.Migrations
                         },
                         new
                         {
-                            Id = "b21a6e8c-76c7-4a42-9bc3-1e10d104c483",
-                            CreatedAt = new DateTime(2026, 3, 19, 10, 25, 21, 406, DateTimeKind.Utc).AddTicks(4563),
+                            Id = "7580487a-a051-49d8-a92c-e8978d8a6e64",
+                            CreatedAt = new DateTime(2026, 3, 14, 11, 0, 24, 458, DateTimeKind.Utc).AddTicks(8740),
                             Email = "fleetingtrails@gmail.com",
                             FullName = "Fleeting Trails",
                             IsPasswordSet = false,

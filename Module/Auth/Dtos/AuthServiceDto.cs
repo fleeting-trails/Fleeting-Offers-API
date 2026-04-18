@@ -7,5 +7,6 @@ public record TokenValidationResponse (
     string? UserId,
     USER_ROLE? Role,
     string? Device,
-    bool IsValid
+    bool IsValid,
+    UserDto? User = null
 );

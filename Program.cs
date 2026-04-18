@@ -32,6 +32,7 @@ new DocumentationSettings(builder);
 
 var app = builder.Build();
 
+app.UseCors();
 app.UseRouting();
 
 app.UseEndpoints(endpoints =>

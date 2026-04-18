@@ -1,34 +1,35 @@
 using FleetingOffers.Common.Enum;
 using FleetingOffers.Http;
-using FleetingOffers.Module.Advertise;
+using FleetingOffers.Module.Product;
+using FleetingOffers.Module.User;
 using FleetingOffers.Settings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FleetingOffers.Controller;
 
-[Route($"{HttpSettings.AdminRoutePrefix}/advertise")]
+[Route($"{HttpSettings.AdminRoutePrefix}/product")]
 [ApiController]
-public class AdvertiseController : AdminControllerBase
+public class ProductController : AdminControllerBase
 {
-    private readonly AdvertiseControllerService _service;
-    public AdvertiseController(AdvertiseControllerService advertiseService)
+    private readonly ProductControllerService _service;
+    
+    public ProductController(ProductControllerService productService)
     {
-        _service = advertiseService;
+        _service = productService;
     }
-    // /// <summary>
-    // /// List own advertises paginated.
-    // /// </summary>
-    // /// <remarks>
-    // /// 🔐 Roles allowed: Organization, Admin, SuperAdmin
-    // /// </remarks>
-    // /// <response code="200">AD Details</response>
-    // /// <response code="401">Unauthorized: Access Denied</response>
+
+    /// <summary>
+    /// List own products paginated.
+    /// </summary>
+    /// <remarks>
+    /// 🔐 Roles allowed: Organization, Admin, SuperAdmin
+    /// </remarks>
     [HttpGet("list/own")]
-    public async Task<IActionResult> GetOwnAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
+    public async Task<IActionResult> GetOwnProductsPaginated([FromQuery] PaginationQueryDto paginationQuery)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "LIST_OWN",
             async () =>
             {
@@ -37,7 +38,7 @@ public class AdvertiseController : AdminControllerBase
                     int page = paginationQuery.Page ?? 1;
                     int pageSize = paginationQuery.PageSize ?? 10;
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetOwnAdvertisesPaginatedAsync(authPayload.UserId, page, pageSize);
+                    var res = await _service.GetOwnProductsPaginatedAsync(authPayload.UserId, page, pageSize);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)
@@ -47,20 +48,19 @@ public class AdvertiseController : AdminControllerBase
             }
         );
     }
+
     /// <summary>
-    /// List all advertise paginated.
+    /// List all products paginated.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Admin, Super Admin
     /// </remarks>
-    /// <response code="200">AD Details</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpGet("list")]
-    public async Task<IActionResult> GetAdvertisesPaginated([FromQuery] PaginationQueryDto paginationQuery)
+    public async Task<IActionResult> GetProductsPaginated([FromQuery] PaginationQueryDto paginationQuery)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "LIST_ALL",
             async () =>
             {
@@ -68,8 +68,7 @@ public class AdvertiseController : AdminControllerBase
                 {
                     int page = paginationQuery.Page ?? 1;
                     int pageSize = paginationQuery.PageSize ?? 10;
-                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetAllAdvertisesPaginatedAsync(page, pageSize);
+                    var res = await _service.GetAllProductsPaginatedAsync(page, pageSize);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)
@@ -81,26 +80,24 @@ public class AdvertiseController : AdminControllerBase
     }
 
     /// <summary>
-    /// Get own advertise details.
+    /// Get own product details.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Super Admin, Admin, Organization
     /// </remarks>
-    /// <response code="200">AD Details</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpGet("get/own/{id}")]
-    public async Task<IActionResult> GetOwnAdvertise(string id)
+    public async Task<IActionResult> GetOwnProduct(string id)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "READ_OWN",
             async () =>
             {
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetOwnAdvertiseAsync(authPayload.UserId, id);
+                    var res = await _service.GetOwnProductAsync(authPayload.UserId, id);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)
@@ -109,29 +106,26 @@ public class AdvertiseController : AdminControllerBase
                 }
             }
         );
-
     }
+
     /// <summary>
-    /// Get any advertise details.
+    /// Get any product details.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Super Admin, Admin
     /// </remarks>
-    /// <response code="200">AD Details</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpGet("get/{id}")]
-    public async Task<IActionResult> GetAdvertise(string id)
+    public async Task<IActionResult> GetProduct(string id)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "READ",
             async () =>
             {
                 try
                 {
-                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    var res = await _service.GetAdvertiseAsync(id);
+                    var res = await _service.GetProductAsync(id);
                     return AppHttpResponse.Ok(res, "Ok");
                 }
                 catch (Exception ex)
@@ -143,26 +137,24 @@ public class AdvertiseController : AdminControllerBase
     }
 
     /// <summary>
-    /// Creates an advertise entry.
+    /// Creates a product entry.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Organization
     /// </remarks>
-    /// <response code="200">Ad created</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpPost("create")]
-    public async Task<IActionResult> CreateAdvertise([FromBody] CreateAdvertiseDto dto)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto dto)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "CREATE",
             async () =>
             {
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    await _service.CreateAdvertiseAsync(authPayload.UserId, dto);
+                    await _service.CreateProductAsync(authPayload.UserId, dto);
                     return AppHttpResponse.Ok("Ok");
                 }
                 catch (Exception ex)
@@ -171,29 +163,31 @@ public class AdvertiseController : AdminControllerBase
                 }
             }
         );
-
     }
+
     /// <summary>
-    /// Creates an advertise for organization by admin.
+    /// Creates a product for organization by admin.
     /// </summary>
     /// <remarks>
-    /// 🔐 Roles allowed: Admin, SuperAdmin
+    /// 🔐 Roles allowed: Admin
     /// </remarks>
-    /// <response code="200">Ad created</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpPost("create-by-admin")]
-    public async Task<IActionResult> CreateAdvertiseByAdmin([FromBody] CreateAdvertiseAdminDto dto)
+    public async Task<IActionResult> CreateProductByAdmin([FromBody] CreateProductAdminDto dto)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "CREATE_BY_ADMIN",
             async () =>
             {
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    await _service.CreateAdvertiseByAdminAsync(authPayload.UserId, dto);
+                    if (authPayload.Role == USER_ROLE.SUPER_ADMIN)
+                    {
+                        return AppHttpResponse.Unauthorized();
+                    }
+                    await _service.CreateProductByAdminAsync(authPayload.UserId, dto);
                     return AppHttpResponse.Ok("Ok");
                 }
                 catch (Exception ex)
@@ -202,31 +196,27 @@ public class AdvertiseController : AdminControllerBase
                 }
             }
         );
-
     }
 
-
     /// <summary>
-    /// Update an advertise entry.
+    /// Update a product entry.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Admin, SuperAdmin, Organization
     /// </remarks>
-    /// <response code="200">Ad created</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateAdvertiseDetails([FromBody] UpdateAdvertiseDetailsDto dto)
+    public async Task<IActionResult> UpdateProductDetails([FromBody] UpdateProductDetailsDto dto)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "UPDATE_OWN",
             async () =>
             {
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    await _service.UpdateAdvertiseDetailsAsync(authPayload.UserId, dto);
+                    await _service.UpdateProductDetailsAsync(authPayload.UserId, dto);
                     return AppHttpResponse.Ok("Ok");
                 }
                 catch (Exception ex)
@@ -235,30 +225,27 @@ public class AdvertiseController : AdminControllerBase
                 }
             }
         );
-
     }
 
     /// <summary>
-    /// Delete an advertise entry.
+    /// Delete a product entry.
     /// </summary>
     /// <remarks>
     /// 🔐 Roles allowed: Admin, SuperAdmin, Organization
     /// </remarks>
-    /// <response code="200">Ad deleted</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteAdvertise(string id)
+    public async Task<IActionResult> DeleteProduct(string id)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "DELETE_OWN",
             async () =>
             {
                 try
                 {
                     var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    await _service.DeleteAdvertiseAsync(authPayload.UserId, id);
+                    await _service.DeleteProductAsync(authPayload.UserId, id);
                     return AppHttpResponse.Ok("Ok");
                 }
                 catch (Exception ex)
@@ -267,30 +254,26 @@ public class AdvertiseController : AdminControllerBase
                 }
             }
         );
-
     }
 
     /// <summary>
-    /// Delete an advertise entry by admin.
+    /// Delete a product entry by admin.
     /// </summary>
     /// <remarks>
-    /// 🔐 Roles allowed: Admin, SuperAdmin, Organization
+    /// 🔐 Roles allowed: Admin, SuperAdmin
     /// </remarks>
-    /// <response code="200">Ad deleted</response>
-    /// <response code="401">Unauthorized: Access Denied</response>
     [HttpDelete("delete-by-admin/{id}")]
-    public async Task<IActionResult> DeleteAdvertiseByAdmin(string id)
+    public async Task<IActionResult> DeleteProductByAdmin(string id)
     {
         return await WithPermission(
             HttpContext,
-            APP_MODULE.ADVERTISE,
+            APP_MODULE.PRODUCT,
             "DELETE",
             async () =>
             {
                 try
                 {
-                    var authPayload = HttpHelper.GetAuthorizationPayload(HttpContext);
-                    await _service.DeleteAdvertiseByAdminAsync(id);
+                    await _service.DeleteProductByAdminAsync(id);
                     return AppHttpResponse.Ok("Ok");
                 }
                 catch (Exception ex)
@@ -299,6 +282,5 @@ public class AdvertiseController : AdminControllerBase
                 }
             }
         );
-
     }
 }

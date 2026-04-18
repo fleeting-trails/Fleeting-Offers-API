@@ -95,9 +95,12 @@ public class AuthService
 
         _repository.UpsertAuthToken(user.Id, deviceSingature, token.Token);
 
+        var permissions = _repository.GetRolePermissions(user.Role.ToString());
+
         return new LoginResponseAdminDto(
             User: user,
-            Token:token.Token
+            Token: token.Token,
+            Permissions: permissions
         );
     }
 
@@ -125,14 +128,37 @@ public class AuthService
 
             var RoleEnum = Enum.Parse<USER_ROLE>(Res.Role.ToUpper());
 
-            return new TokenValidationResponse(Token.Token, Token.UserId, RoleEnum, Token.DeviceSignature, true);
+            // Get user data
+            var userData = _userRepository.GetUserById(Token.UserId);
+
+            return new TokenValidationResponse(Token.Token, Token.UserId, RoleEnum, Token.DeviceSignature, true, userData);
         }
         catch (Exception e)
         {
             Console.WriteLine($"Access unauthorized. {e.Message}");
-            return new TokenValidationResponse(null, null, null, null, false);
+            return new TokenValidationResponse(null, null, null, null, false, null);
         }
 
+    }
+
+    public TokenValidationWithPermissionsResponse? ValidateTokenWithPermissions(string? token)
+    {
+        var validationResult = ValidateToken(token);
+        if (validationResult == null || !validationResult.IsValid)
+            return null;
+
+        var permissions = _repository.GetRolePermissions(validationResult.Role?.ToString());
+
+        return new TokenValidationWithPermissionsResponse
+        {
+            IsValid = validationResult.IsValid,
+            Token = validationResult.Token,
+            UserId = validationResult.UserId,
+            Role = validationResult.Role?.ToString(),
+            Device = validationResult.Device,
+            User = validationResult.User,
+            Permissions = permissions
+        };
     }
     #endregion
 
